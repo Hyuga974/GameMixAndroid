@@ -1,1 +1,6 @@
 # GameMixAndroid
+
+This project is an android project with a possible connection IoT...
+
+# Work in Progress ....
+See you soon for more things ;)
