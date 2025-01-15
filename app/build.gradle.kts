@@ -56,4 +56,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.activity:activity-compose:1.7.0") // For setContent
+    implementation("androidx.compose.ui:ui:1.5.0") // Compose UI
+    implementation("androidx.compose.material:material:1.5.0") // Material Components
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0") // ViewModel with Compose
+    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 }
