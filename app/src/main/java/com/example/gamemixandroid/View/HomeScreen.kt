@@ -1,8 +1,9 @@
-package com.example.ui.home
+package com.example.gamemixandroid.View
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -21,8 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.gamemixandroid.R
+import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.Primary
+import com.example.ui.home.GameListScreen
+import com.example.ui.home.HomeViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
@@ -31,10 +35,13 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     // Navigation Host setup
     NavHost(navController = navController, startDestination = "homeScreen") {
         composable("GameListScreen") {
-            GameListScreen(viewModel) // Ensure GameListScreen is implemented
+            GameListScreen(viewModel, navController) // Ensure GameListScreen is implemented
         }
         composable("homeScreen") {
             HomeContent(navController) // Delegate the home screen content to another function
+        }
+        composable("SetGameScreen") {
+            SetGameScreen()
         }
     }
 }
@@ -50,7 +57,6 @@ fun HomeContent(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Logo Section
@@ -58,12 +64,12 @@ fun HomeContent(navController: NavController) {
                 painter = painterResource(id = R.drawable.gamemixlogo_transparent), // Replace with your logo resource ID
                 contentDescription = "GameMix Logo",
                 modifier = Modifier
-                    .height(350.dp)
+                    .height(500.dp)
                     .fillMaxWidth()
             )
 
             // Welcome Text Section
-            Column(
+            /*Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -78,18 +84,16 @@ fun HomeContent(navController: NavController) {
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )
-            }
+            }*/
 
             // Button Section
-            Button(
+            CustomButton(
+                "JOUER !",
                 onClick = { navController.navigate("GameListScreen") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(Primary)
-            ) {
-                Text(text = "Commencer →", fontSize = 18.sp, color = Color.White)
-            }
+                height = 70,
+                fontSize = 24.sp,
+            )
+
         }
     }
 }
