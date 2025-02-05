@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.ui.theme.Background
@@ -30,7 +31,7 @@ import com.example.gamemixandroid.ui.theme.Tertiary
 @Composable
 fun SetGameScreen(maxPlayers: Int = 10, minPlayer: Int = 2, gameName: String) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
-    val players = remember { mutableStateListOf<String>() }
+    val players = remember { mutableStateListOf<Player>() }
 
     Box(
         modifier = Modifier
@@ -91,7 +92,7 @@ fun SetGameScreen(maxPlayers: Int = 10, minPlayer: Int = 2, gameName: String) {
                 Button(
                     onClick = {
                         if (newPlayerName.text.isNotBlank() && players.size < maxPlayers) {
-                            players.add(newPlayerName.text)
+                            players.add(Player(name = newPlayerName.text))
                             newPlayerName = TextFieldValue("") // Clear input
                         }
                     },
@@ -121,7 +122,7 @@ fun SetGameScreen(maxPlayers: Int = 10, minPlayer: Int = 2, gameName: String) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = player,
+                            text = player.name,
                             modifier = Modifier.padding(start = 16.dp),
                             fontSize = 18.sp,
                             color = Color.Black
