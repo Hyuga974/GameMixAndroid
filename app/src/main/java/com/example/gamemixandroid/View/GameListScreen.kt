@@ -80,7 +80,7 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
             CustomButton(
                 "Belote",
                 textColor = Primary,
-                onClick = { navController.navigate("SetGameScreen") },
+                onClick = { navController.navigate("BeloteScreenGame") },
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,
@@ -89,7 +89,7 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
             CustomButton(
                 "Président",
                 textColor = Primary,
-                onClick = { navController.navigate("SetGameScreen") },
+                onClick = { navController.navigate("PresidentScreenGame") },
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,

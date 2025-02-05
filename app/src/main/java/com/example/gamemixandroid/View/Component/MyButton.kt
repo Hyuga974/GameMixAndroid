@@ -26,7 +26,8 @@ fun CustomButton(
     height: Int = 60,
     width : Float = 0.0f,
     cornerRadius: Int = 20,
-    modif : Modifier = Modifier
+    modif : Modifier = Modifier,
+    on : Boolean = true
 ) {
 
     Button(
@@ -35,6 +36,7 @@ fun CustomButton(
             .fillMaxWidth(if (width == 0.0f) 1.0f else width)
             .height(height.dp)
             .then(modif),
+        enabled = on,
         shape = RoundedCornerShape(cornerRadius.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor)
     ) {

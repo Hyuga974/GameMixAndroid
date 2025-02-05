@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -23,13 +22,15 @@ import androidx.compose.ui.unit.sp
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.ui.theme.Background
+import com.example.gamemixandroid.ui.theme.NoName
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
+import com.example.gamemixandroid.ui.theme.Tertiary
 
 @Composable
-fun SetGameScreen() {
+fun SetGameScreen(maxPlayers: Int = 10, minPlayer: Int = 2, gameName: String) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
-    var players by remember { mutableStateOf(mutableListOf<String>()) }
+    val players = remember { mutableStateListOf<String>() }
 
     Box(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun SetGameScreen() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "BELOTE !",
+                    text = gameName,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Primary
@@ -89,14 +90,15 @@ fun SetGameScreen() {
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = {
-                        if (newPlayerName.text.isNotBlank()) {
+                        if (newPlayerName.text.isNotBlank() && players.size < maxPlayers) {
                             players.add(newPlayerName.text)
                             newPlayerName = TextFieldValue("") // Clear input
                         }
                     },
                     modifier = Modifier.size(50.dp),
                     shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(Primary)
+                    colors = ButtonDefaults.buttonColors(Secondary),
+                    enabled = newPlayerName.text.isNotBlank() && players.size < maxPlayers
                 ) {
                     Text("+", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 }
@@ -124,23 +126,30 @@ fun SetGameScreen() {
                             fontSize = 18.sp,
                             color = Color.Black
                         )
-                        IconButton(
-                            onClick = { players.removeAt(index) },
-                            modifier = Modifier.padding(end = 8.dp)
-                        ){}
+                        Button(
+                            onClick = {
+                                players.remove(player) // Remove player by index
+                            },
+                            modifier = Modifier.size(50.dp),
+                            shape = CircleShape,
+                            colors = ButtonDefaults.buttonColors(Primary),
+                        ) {
+                            Text("-", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        }
                     }
                 }
             }
 
             // Play Button Section
-
             CustomButton(
                 onClick = { /* TODO: Navigate to the game screen */ },
                 width = 0.8f,
                 height = 60,
                 text = "JOUER →",
                 fontSize = 24.sp,
-                textColor = Color.White
+                textColor = Color.White,
+                backgroundColor =  Secondary,
+                on = players.size >= minPlayer
             )
         }
     }
