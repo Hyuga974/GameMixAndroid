@@ -41,7 +41,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             HomeContent(navController) // Delegate the home screen content to another function
         }
         composable("BeloteScreenGame") {
-            SetGameScreen(maxPlayers = 4, minPlayer = 4,"Belote")
+            SetGameScreen(maxPlayers = 4, minPlayers = 4,"Belote")
         }
         composable("PresidentScreenGame") {
             SetGameScreen(7, 2,"Président")
