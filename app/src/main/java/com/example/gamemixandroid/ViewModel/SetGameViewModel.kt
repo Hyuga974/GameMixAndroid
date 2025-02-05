@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.gamemixandroid.Model.Player
 
-class GameViewModel : ViewModel() {
+class SetGameViewModel : ViewModel() {
     private var playerIdCounter = 0  // Ensures unique player IDs
 
     // State: List of players

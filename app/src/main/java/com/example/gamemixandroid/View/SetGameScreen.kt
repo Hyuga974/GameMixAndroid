@@ -25,8 +25,10 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
+import com.example.gamemixandroid.View.Component.AddPlayer
 import com.example.gamemixandroid.View.Component.CustomButton
-import com.example.gamemixandroid.ViewModel.GameViewModel
+import com.example.gamemixandroid.View.Component.SetPlayer
+import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.*
 
 @Composable
@@ -34,7 +36,7 @@ fun SetGameScreen(
     maxPlayers: Int = 10,
     minPlayers: Int = 2,
     gameName: String,
-    viewModel: GameViewModel = viewModel()
+    viewModel: SetGameViewModel = viewModel()
 ) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
     val players = viewModel.players
@@ -92,63 +94,20 @@ fun SetGameScreen(
                     }
 
                     // Input Section
-                    Row(
-                        modifier = Modifier.fillMaxWidth(0.8f),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        TextField(
-                            value = newPlayerName,
-                            onValueChange = { newPlayerName = it },
-                            placeholder = { Text("New player ...") },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Button(
-                            onClick = {
-                                viewModel.addPlayer(newPlayerName.text, maxPlayers)
-                                newPlayerName = TextFieldValue("") // Clear input
-                                keyboardController?.hide() // Hide keyboard
-                            },
-                            modifier = Modifier.size(50.dp),
-                            shape = CircleShape,
-                            colors = ButtonDefaults.buttonColors(
-                                Secondary,
-                                disabledBackgroundColor = Secondary.copy(alpha = 0.5f)
-                            ),
-                            enabled = newPlayerName.text.isNotBlank() && players.size < maxPlayers
-                        ) {
-                            Text("+", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                        }
-                    }
+                    AddPlayer(
+                        viewModel = viewModel,
+                        maxPlayers = maxPlayers,
+                        newPlayerName = newPlayerName,
+                        onValueChange = { newPlayerName = it }
+                    )
                 }
             }
 
             items(players) { player ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(50.dp)
-                        .background(Background, shape = MaterialTheme.shapes.medium),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = player.name,
-                        modifier = Modifier.padding(start = 16.dp),
-                        fontSize = 18.sp,
-                        color = Color.Black
-                    )
-                    Button(
-                        onClick = { viewModel.removePlayer(player) },
-                        modifier = Modifier.size(40.dp),
-                        shape = CircleShape,
-                        colors = ButtonDefaults.buttonColors(Primary),
-                    ) {
-                        Text("-", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                    }
-                }
+                SetPlayer(
+                    player = player,
+                    hasButton = true,
+                )
             }
         }
 
