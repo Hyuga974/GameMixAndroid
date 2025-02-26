@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.Background
+import com.example.gamemixandroid.ui.theme.NoName
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 
@@ -50,8 +51,8 @@ fun AddPlayer (
             modifier = Modifier.weight(1f),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
+                focusedContainerColor = NoName,
+                unfocusedContainerColor = NoName,
                 errorContainerColor = Color.Red,
             ),
         )

@@ -27,6 +27,7 @@ import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.AddPlayer
 import com.example.gamemixandroid.View.Component.CustomButton
+import com.example.gamemixandroid.View.Component.PlayerTable
 import com.example.gamemixandroid.View.Component.SetPlayer
 import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.*
@@ -100,14 +101,9 @@ fun SetGameScreen(
                         newPlayerName = newPlayerName,
                         onValueChange = { newPlayerName = it }
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PlayerTable(players, onRemove = { viewModel.removePlayer(it) })
                 }
-            }
-
-            items(players) { player ->
-                SetPlayer(
-                    player = player,
-                    hasButton = true,
-                )
             }
         }
 
