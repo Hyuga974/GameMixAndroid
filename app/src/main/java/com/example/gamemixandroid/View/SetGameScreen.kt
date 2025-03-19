@@ -101,7 +101,7 @@ fun SetGameScreen(
                         newPlayerName = newPlayerName,
                         onValueChange = { newPlayerName = it }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    //Spacer(modifier = Modifier.height(8.dp))
                     PlayerTable(players, onRemove = { viewModel.removePlayer(it) })
                 }
             }
