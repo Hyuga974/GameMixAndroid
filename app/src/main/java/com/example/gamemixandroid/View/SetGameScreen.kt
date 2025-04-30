@@ -39,7 +39,7 @@ fun SetGameScreen(
     maxPlayers: Int = 10,
     minPlayers: Int = 2,
     gameName: String,
-    viewModel: SetGameViewModel = viewModel(),
+    viewModel: SetGameViewModel,
     navController: NavController
 ) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
