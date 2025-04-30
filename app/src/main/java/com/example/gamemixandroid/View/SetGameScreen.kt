@@ -23,12 +23,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
+import androidx.navigation.NavController
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.AddPlayer
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.View.Component.PlayerTable
 import com.example.gamemixandroid.View.Component.SetPlayer
+import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.*
 
@@ -37,11 +39,13 @@ fun SetGameScreen(
     maxPlayers: Int = 10,
     minPlayers: Int = 2,
     gameName: String,
-    viewModel: SetGameViewModel = viewModel()
+    viewModel: SetGameViewModel = viewModel(),
+    navController: NavController
 ) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
     val players = viewModel.players
     val keyboardController = LocalSoftwareKeyboardController.current // Keyboard controller
+    val gameViewModel: GameViewModel = viewModel()
 
     Box(
         modifier = Modifier
@@ -109,7 +113,7 @@ fun SetGameScreen(
 
         // Play Button Section
         CustomButton(
-            onClick = { /* TODO: Navigate to the game screen */ },
+            onClick = { navController.navigate("BeloteGame") },
             width = 0.8f,
             height = 60,
             text = "JOUER →",
