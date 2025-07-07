@@ -10,10 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ui.theme.Secondary
 
 @Composable
-fun DynamicPlayerTable(players: List<String>) {
+fun DynamicPlayerTable(players: List<Player>) {
     Box(
         modifier = Modifier
             .width(250.dp)
@@ -39,8 +40,8 @@ fun DynamicPlayerTable(players: List<String>) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    PlayerChip(players[0])
-                    if (playerCount >= 2) PlayerChip(players[1])
+                    PlayerChip(players[0].name)
+                    if (playerCount >= 2) PlayerChip(players[1].name)
                 }
             }
 
@@ -50,14 +51,14 @@ fun DynamicPlayerTable(players: List<String>) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    PlayerChip(players[2])
-                    if (playerCount >= 4) PlayerChip(players[3])
+                    PlayerChip(players[2].name)
+                    if (playerCount >= 4) PlayerChip(players[3].name)
                 }
             }
 
             if (playerCount >= 5) {
                 // Bottom center
-                PlayerChip(players[4])
+                PlayerChip(players[4].name)
             }
 
             // Additional players from index 5+
@@ -67,7 +68,7 @@ fun DynamicPlayerTable(players: List<String>) {
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     players.drop(5).forEach { player ->
-                        PlayerChip(player)
+                        PlayerChip(player.name)
                     }
                 }
             }

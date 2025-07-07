@@ -23,7 +23,7 @@ import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.ui.home.GameListScreen
 import com.example.ui.home.HomeViewModel
-import org.json.JSONArray
+import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 
 @Composable
@@ -49,7 +49,6 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 navController = navController
             )
         }
-
         composable("PresidentScreenGame") {
             SetGameScreen(
                 maxPlayers = 7,
@@ -59,18 +58,33 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             )
         }
 
-        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
         composable(
-            route = "BeloteGame/{playersJson}",
+            route = "présidentGame/{playersJson}",
             arguments = listOf(navArgument("playersJson") {
                 type = NavType.StringType
             })
         ) { backStackEntry ->
+            // print the playersJson argument
             val json = backStackEntry.arguments?.getString("playersJson")
                 ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
             val players: List<Player> = Json.decodeFromString(json)
-            
+            val gameViewModel: GameViewModel = viewModel()
+            GameScreen(players = players, viewModel = gameViewModel, navController = navController)
+        }
 
+        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
+        composable(
+            route = "beloteGame/{playersJson}",
+            arguments = listOf(navArgument("playersJson") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            // print the playersJson argument
+            val json = backStackEntry.arguments?.getString("playersJson")
+                ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
+            val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
             GameScreen(players = players, viewModel = gameViewModel, navController = navController)
         }
