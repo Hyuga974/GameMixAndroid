@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
-import com.example.gamemixandroid.View.Component.DynamicPlayerTable
 import com.example.gamemixandroid.View.Component.PlayerChip
 import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
@@ -60,7 +59,44 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
             }
         }
 
-        DynamicPlayerTable(players = players)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Game Table Section
+        Box(
+            modifier = Modifier
+                .width(250.dp)
+                .height(500.dp)
+                .background(Color.DarkGray, shape = MaterialTheme.shapes.large)
+                .border(
+                    width = 6.dp,
+                    color = Secondary,
+                    shape = MaterialTheme.shapes.large
+                ),
+            contentAlignment = Alignment.Center,
+
+        ) {
+            // Players Positioned Around the Table
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                // Top Row
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    PlayerChip("P1") // Top Left
+                    PlayerChip("P3") // Top Right
+                }
+
+                // Middle Row
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    PlayerChip("P2") // Middle Left
+                    PlayerChip("P4") // Middle Right
+                }
+
+                // Bottom Center
+                PlayerChip("P5")
+            }
+        }
 
 
         Spacer(modifier = Modifier.height(16.dp))

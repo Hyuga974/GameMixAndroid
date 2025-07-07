@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version "1.9.0"}
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
+}
 
 android {
     namespace = "com.example.gamemixandroid"

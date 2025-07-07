@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PlayerChip(name: String) {
+    val displayName = if (name.length >= 3) name.substring(0, 3) else name
     Box(
         modifier = Modifier
             .size(60.dp)
@@ -22,6 +23,6 @@ fun PlayerChip(name: String) {
             .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = name, fontSize = 16.sp, color = Color.Black)
+        Text(text = displayName.uppercase(), fontSize = 16.sp, color = Color.Black)
     }
 }

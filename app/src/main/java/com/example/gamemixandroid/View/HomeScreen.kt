@@ -20,18 +20,15 @@ import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.ViewModel.GameViewModel
-import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.ui.home.GameListScreen
 import com.example.ui.home.HomeViewModel
 import kotlinx.serialization.json.Json
-import org.json.JSONArray
 import java.net.URLDecoder
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     val navController = rememberNavController()
-    val setGameModel: SetGameViewModel = viewModel()
 
     // Navigation Host setup
     NavHost(navController = navController, startDestination = "homeScreen") {
@@ -49,7 +46,6 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 4,
                 minPlayers = 4,
                 gameName = "Belote",
-                viewModel = setGameModel,
                 navController = navController
             )
         }
@@ -59,16 +55,39 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 7,
                 minPlayers = 2,
                 gameName = "Président",
-                viewModel = setGameModel,
                 navController = navController
             )
         }
 
-        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
-        composable("BeloteGame") {
+        composable(
+            route = "présidentGame/{playersJson}",
+            arguments = listOf(navArgument("playersJson") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            // print the playersJson argument
+            val json = backStackEntry.arguments?.getString("playersJson")
+                ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
+            val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
+            GameScreen(players = players, viewModel = gameViewModel, navController = navController)
+        }
 
-            GameScreen(players = setGameModel.players, viewModel = gameViewModel, navController = navController)
+        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
+        composable(
+            route = "beloteGame/{playersJson}",
+            arguments = listOf(navArgument("playersJson") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            // print the playersJson argument
+            val json = backStackEntry.arguments?.getString("playersJson")
+                ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
+            val players: List<Player> = Json.decodeFromString(json)
+            val gameViewModel: GameViewModel = viewModel()
+            GameScreen(players = players, viewModel = gameViewModel, navController = navController)
         }
     }
 }
