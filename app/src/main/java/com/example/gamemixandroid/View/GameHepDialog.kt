@@ -173,9 +173,6 @@ fun ButtonInfoItem(title: String, description: String) {
 fun GameScreen(viewModel: GameViewModel, navController: NavController) {
     var showHelpDialog = false
 
-
-    // ... votre code existant ...
-
     Button(
         onClick = { showHelpDialog = true },
         shape = CircleShape,
