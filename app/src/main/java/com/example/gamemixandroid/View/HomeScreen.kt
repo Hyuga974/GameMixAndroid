@@ -49,7 +49,6 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 navController = navController
             )
         }
-
         composable("PresidentScreenGame") {
             SetGameScreen(
                 maxPlayers = 7,

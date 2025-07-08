@@ -24,6 +24,7 @@ import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.View.Component.PlayerChip
+import com.example.gamemixandroid.View.Component.DynamicPlayerTable
 import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.NoName
@@ -73,29 +74,9 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
                     shape = MaterialTheme.shapes.large
                 ),
             contentAlignment = Alignment.Center,
-
         ) {
-            // Players Positioned Around the Table
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                // Top Row
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    PlayerChip("P1") // Top Left
-                    PlayerChip("P3") // Top Right
-                }
-
-                // Middle Row
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    PlayerChip("P2") // Middle Left
-                    PlayerChip("P4") // Middle Right
-                }
-
-                // Bottom Center
-                PlayerChip("P5")
-            }
+            // Table dynamique des joueurs
+            DynamicPlayerTable(players)
         }
 
 
