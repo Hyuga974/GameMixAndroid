@@ -89,103 +89,116 @@ Integration tests are written to test the interaction between different componen
 ## E2E Tests
 E2E tests are written to test the application as a whole. They are run using the Android testing framework.
 
-### US011 - **Game creation and management**
-  _**Scenario**_ : As a user, I want to create a new game, add players, and start the game.
+### US011 - Game Creation and Management
+**As a** user,  
+**I want to** create a new game, add players, and start the game,  
+**So that** I can play with others.  
 
-  _**Steps**_:
-    - Open the application and navigate to the game creation screen.
-    - Select the game type (e.g., Belote).
-    - Add players until reaching the minimum required number.
-    - Click the "PLAY" button to start the game.
-          
-  _**Expected Result**_ : The game is created, players are successfully added, and the application navigates to the game screen.
+**Acceptance criteria:**  
+- **GIVEN** I'm on the game creation screen, **WHEN** I select a game type (e.g., Belote), **THEN** the game options appear  
+- **GIVEN** I've added players, **WHEN** I reach the minimum required players, **THEN** the PLAY button becomes enabled  
+- **GIVEN** I've configured the game, **WHEN** I click PLAY, **THEN** the game starts and I'm redirected to the game screen  
 
-### US012 - **Score management during a game**
-  _**Scenario**_ : As a user, I want to update player scores during a game.
+### US012 - Score Management During Game
+**As a** user,  
+**I want to** update player scores during gameplay,  
+**So that** I can track progress accurately.  
 
-  _**Steps**_:
-    - Start a game with multiple players.
-    - Navigate to the score update option.
-    - Update scores for each player.
-    - Save changes.
+**Acceptance criteria:**  
+- **GIVEN** a game is ongoing, **WHEN** I access the score editor, **THEN** all players' scores are editable  
+- **GIVEN** I modify a score, **WHEN** I save changes, **THEN** the UI updates instantly  
+- **GIVEN** I enter an invalid score, **WHEN** I attempt to save, **THEN** I receive immediate validation feedback  
 
-  -**Expected Result**- : Player scores are updated and correctly displayed in the user interface.
+### US013 - External Device Control
+**As a** user,  
+**I want to** connect to an external card device,  
+**So that** I can automate card shuffling/dealing.  
 
-### US013 - **Connection and control of an external device**
-  _**Scenario**_ : As a user, I want to connect to an external device to shuffle and deal cards.
+**Acceptance criteria:**  
+- **GIVEN** Bluetooth is enabled, **WHEN** I select a device, **THEN** pairing completes within 10s  
+- **GIVEN** a successful connection, **WHEN** I send shuffle command, **THEN** the device executes within 3s  
+- **GIVEN** I'm connected, **WHEN** I send deal command, **THEN** cards distribute as configured  
 
-  _**Steps**_:
-    - Navigate to the device connection screen.
-    - Enable Bluetooth connection and select the external device.
-    - Use commands to start shuffling and dealing cards.
+### US014 - Bluetooth Error Handling
+**As a** user,  
+**I want to** receive clear connection error messages,  
+**So that** I can troubleshoot effectively.  
 
-  _**Expected Result**_ : The application successfully connects to the external device, and the shuffle and deal commands work as expected.
+**Acceptance criteria:**  
+- **GIVEN** Bluetooth is disabled, **WHEN** I attempt connection, **THEN** I see activation instructions  
+- **GIVEN** the device is unavailable, **WHEN** I attempt pairing, **THEN** I receive "Device unavailable" alert  
+- **GIVEN** connection drops mid-game, **WHEN** failure occurs, **THEN** I see reconnect options  
 
-### US014 - **Bluetooth connection error handling**
-  _**Scenario**_ : As a user, I want to receive a clear error message if the connection to the external device fails.
+### US015 - Screen Navigation
+**As a** user,  
+**I want to** navigate between all application screens,  
+**So that** I can access all features seamlessly.  
 
-  _**Steps**_:
-    - Navigate to the device connection screen.
-    - Try to connect to an unavailable Bluetooth device.
+**Acceptance criteria:**  
+- **GIVEN** I'm on any screen, **WHEN** I use navigation controls, **THEN** transitions complete in <500ms  
+- **GIVEN** I navigate away, **WHEN** I return, **THEN** previous state is preserved  
+- **GIVEN** I use back navigation, **WHEN** I confirm, **THEN** I return to logical previous screen  
 
-  _**Expected Result**_ : The application displays a clear error message indicating that the connection failed.
+### US016 - Score Reset
+**As a** user,  
+**I want to** reset all scores during gameplay,  
+**So that** I can start a new round easily.  
 
-### US015 - **Navigation between application screens**
-  _**Scenario**_ : As a user, I want to navigate between different application screens to access all features.
+**Acceptance criteria:**  
+- **GIVEN** scores exist, **WHEN** I trigger reset, **THEN** confirmation dialog appears  
+- **GIVEN** I confirm reset, **WHEN** action completes, **THEN** all scores show 0  
+- **GIVEN** I cancel reset, **WHEN** dialog closes, **THEN** scores remain unchanged  
 
-  _**Steps**_:
-    - Open the application and navigate to the home screen.
-    - Click buttons to access game management screens, device connection, and game screens.
+### US017 - Multi-Resolution Support
+**As a** user,  
+**I want to** use the app on different devices,  
+**So that** I have consistent experience across screens.  
 
-  _**Expected Result**_ : The application correctly navigates between different screens, and each screen displays appropriate information.
+**Acceptance criteria:**  
+- **GIVEN** I'm on mobile (e.g., 1080x1920), **WHEN** I view UI elements, **THEN** no cropping occurs  
+- **GIVEN** I'm on tablet (e.g., 2560x1600), **WHEN** I use layouts, **THEN** space utilization adapts  
+- **GIVEN** I rotate device, **WHEN** orientation changes, **THEN** UI reorganizes correctly  
 
-### US016 - **Score reset**
-  _**Scenario**_ : As a user, I want to reset all player scores during a game.
+### US018 - Permission Management
+**As a** user,  
+**I want to** control app permissions,  
+**So that** my privacy is respected.  
 
-  _**Steps**__ :
-    - Start a game and update player scores.
-    - Navigate to the score reset option.
-    - Confirm the reset.
+**Acceptance criteria:**  
+- **GIVEN** I access Bluetooth feature, **WHEN** permission missing, **THEN** I see justification prompt  
+- **GIVEN** I deny permission, **WHEN** retrying action, **THEN** I see graceful degradation  
+- **GIVEN** I revoke permission, **WHEN** reopening app, **THEN** features disable appropriately  
 
-  _**Expected Result**_ : All player scores are reset to zero.
+### US019 - Bluetooth Security
+**As a** user,  
+**I want to** ensure secure connections,  
+**So that** my device remains protected.  
 
-### US017 - **Screen adaptability on different resolutions**
-  _**Scenario**_ : As a user, I want the application to display correctly on different devices with different screen resolutions.
+**Acceptance criteria:**  
+- **GIVEN** I pair devices, **WHEN** establishing connection, **THEN** encryption activates automatically  
+- **GIVEN** unauthorized devices, **WHEN** they attempt pairing, **THEN** they receive connection refused  
+- **GIVEN** active connection, **WHEN** man-in-middle attack occurs, **THEN** connection terminates  
 
-  _**Steps**_ :
-    - Open the application on a mobile device and a tablet.
-    - Navigate through different screens.
+### US020 - Data Protection
+**As a** user,  
+**I want to** keep my game data private,  
+**So that** others can't access it.  
 
-  _**Expected Result**_ : The user interface correctly adapts to the screen resolution and remains functional.
+**Acceptance criteria:**  
+- **GIVEN** game data is stored, **WHEN** I inspect storage, **THEN** files are encrypted  
+- **GIVEN** other apps, **WHEN** they request access, **THEN** they receive permission denied  
+- **GIVEN** rooted devices, **WHEN** accessing app sandbox, **THEN** data remains unreadable  
 
-## Security Tests
-Security tests are written to test the security of the application. They are run using the Android testing framework.
+## Structural Tests
+Structural tests are written to test the structure of the application. They are run using the Android testing framework.
 
-### US018 - **Permission management**
-  _**Scenario**_ : Verify that the application correctly requests and manages necessary permissions, such as Bluetooth access and location.
 
-  _**Steps**_:
-    - Install and open the application on an Android device.
-    - Verify that the application requests necessary permissions before accessing corresponding features.
-    - Deny a permission and verify that the application handles this denial correctly.
+### US021 - Conditional Branch Coverage
+**As a** developer,  
+**I want to** verify all code paths are tested,  
+**So that** logic works in all scenarios.  
 
-  _**Expected Result**_ : The application requests necessary permissions and correctly handles permission denials, informing the user of the consequences.
-
-### US019 - **Bluetooth connection security**
-  _**Scenario**_ : Verify that the Bluetooth connection between the application and external device is secure and cannot be intercepted by unauthorized devices.
-
-  _**Steps**_:
-        - Establish a Bluetooth connection between the application and external device.
-        - Try to intercept or connect to the external device with another unauthorized device.
-
-  _**Expected Result**_ : The Bluetooth connection is secure, and unauthorized devices cannot intercept or establish a connection.
-
-### US020 - **Local data protection**
-
-  _**Scenario**_ : Verify that local data, such as scores and player information, is stored securely and is not accessible by other applications.
-  
-  _**Steps**_:
-    - Store player and score data locally.
-    - Try to access this data through another application or file explorer.
-  
-  _**Expected Result**_ : Local data is not accessible or readable by other applications or unauthorized users.
+**Acceptance criteria:**  
+- **GIVEN** unit tests run, **WHEN** coverage generated, **THEN** critical components show ≥80% coverage  
+- **GIVEN** validation logic, **WHEN** testing edge cases, **THEN** all condition branches execute  
+- **GIVEN** uncovered branches, **WHEN** identified, **THEN** tests are added for missing paths
