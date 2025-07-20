@@ -103,7 +103,12 @@ fun SetGameScreen(
                         viewModel = viewModel,
                         maxPlayers = maxPlayers,
                         newPlayerName = newPlayerName,
-                        onValueChange = { newPlayerName = it }
+                        onValueChange = { newPlayerName = it },
+                        onClick = {
+                            viewModel.addPlayer(newPlayerName.text, maxPlayers)
+                            newPlayerName = TextFieldValue("")
+                            keyboardController?.hide()
+                        }
                     )
                     //Spacer(modifier = Modifier.height(8.dp))
                     PlayerTable(players, onRemove = { viewModel.removePlayer(it) })
