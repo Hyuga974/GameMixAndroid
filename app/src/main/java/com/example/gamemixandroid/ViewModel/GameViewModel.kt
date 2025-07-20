@@ -8,6 +8,7 @@ import com.example.gamemixandroid.Model.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class GameViewModel : ViewModel() {
     // État initial du jeu
@@ -38,6 +39,16 @@ class GameViewModel : ViewModel() {
     fun updateAction(newAction: String) {
         viewModelScope.launch {
             _gameState.emit(_gameState.value.copy(currentAction = newAction))
+        }
+    }
+
+    fun editScoreToPlayer(playerID : UUID, newScore: Int) {
+        viewModelScope.launch {
+            val updatedPlayers = _gameState.value.players.map { player ->
+                if (player.id == playerID ) player.copy(score = player.score + newScore)
+                else player
+            }
+            _gameState.emit(_gameState.value.copy(players = updatedPlayers))
         }
     }
 }

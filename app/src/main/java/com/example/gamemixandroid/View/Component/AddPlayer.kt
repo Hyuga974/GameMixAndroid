@@ -36,6 +36,7 @@ fun AddPlayer (
     maxPlayers: Int = 10,
     newPlayerName: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
+    onClick: () -> Unit,
 
 ) {
     Row(
