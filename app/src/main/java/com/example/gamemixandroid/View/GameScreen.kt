@@ -10,6 +10,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gamemixandroid.Model.Player
+import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.View.Component.PlayerChip
@@ -40,6 +43,7 @@ import com.example.gamemixandroid.ui.theme.Secondary
 fun GameScreen(viewModel: GameViewModel, navController: NavController, players: List<Player>) {
     var showModal by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
+    var context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,8 +100,8 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
                 player = selectedPlayer!!,
                 onDismiss = { showModal = false },
                 onUpdateScore = { newScore ->
-                    viewModel.editScoreToPlayer(selectedPlayer!!.id, newScore - selectedPlayer!!.score)
-                }
+                    viewModel.editScoreToPlayer(selectedPlayer!!.id, newScore - selectedPlayer!!.score, context)
+                },
             )
         }
 

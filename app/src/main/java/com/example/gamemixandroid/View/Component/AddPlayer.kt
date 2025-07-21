@@ -36,9 +36,9 @@ fun AddPlayer (
     maxPlayers: Int = 10,
     newPlayerName: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    onClick: () -> Unit,
+    onClick: @Composable () -> Unit,
 
-) {
+    ) {
     Row(
         modifier = Modifier.fillMaxWidth(0.8f),
         verticalAlignment = Alignment.CenterVertically

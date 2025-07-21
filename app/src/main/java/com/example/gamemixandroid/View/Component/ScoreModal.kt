@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.gamemixandroid.Model.Player
+import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.ui.theme.Background
+import kotlin.toString
 
 @Composable
 fun ScoreModal(
@@ -20,11 +23,14 @@ fun ScoreModal(
 ) {
     var scoreInput by remember { mutableStateOf(player.score.toString()) }
 
+    val context = LocalContext.current
+    val scoreFlow = PlayerScoreCache.getScore(context, player.id.toString())
+    val score by scoreFlow.collectAsState(initial = 0)
     Dialog(onDismissRequest = onDismiss) {
         Surface(shape = MaterialTheme.shapes.medium, color = Background) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text("Joueur : ${player.name}", style = MaterialTheme.typography.titleLarge)
-                Text("Score actuel : ${player.score}")
+                Text("Score actuel : $score")
                 OutlinedTextField(
                     value = scoreInput,
                     onValueChange = { scoreInput = it },
