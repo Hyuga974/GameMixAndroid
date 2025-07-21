@@ -26,6 +26,7 @@ fun ScoreModal(
     val context = LocalContext.current
     val scoreFlow = PlayerScoreCache.getScore(context, player.id.toString())
     val score by scoreFlow.collectAsState(initial = 0)
+
     Dialog(onDismissRequest = onDismiss) {
         Surface(shape = MaterialTheme.shapes.medium, color = Background) {
             Column(modifier = Modifier.padding(16.dp)) {

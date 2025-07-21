@@ -19,14 +19,10 @@ object PlayerScoreCache {
         }
     }
 
-    suspend fun setScore(context: Context, playerId: String, newScore: Int) {
-        context.dataStore.edit { preferences ->
-            preferences[intPreferencesKey("score_$playerId")] = newScore
+    fun getScore(context: Context, playerId: String): Flow<Int> {
+        val key = intPreferencesKey(SCORE_KEY.name + playerId)
+        return context.dataStore.data.map { prefs ->
+            prefs[key] ?: 0
         }
     }
-
-    fun getScore(context: Context, playerId: String): Flow<Int> =
-        context.dataStore.data.map { prefs ->
-            prefs[intPreferencesKey(SCORE_KEY.name + playerId)] ?: 0
-        }
 }

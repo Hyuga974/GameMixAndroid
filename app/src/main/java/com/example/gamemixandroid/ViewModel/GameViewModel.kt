@@ -64,4 +64,14 @@ class GameViewModel : ViewModel() {
     fun getPlayerScore(context: Context, playerId: String): Flow<Int> {
         return PlayerScoreCache.getScore(context, playerId)
     }
+
+    fun startGame(context: Context) {
+        viewModelScope.launch {
+            val initialPlayers = _gameState.value.players.map { player ->
+                PlayerScoreCache.saveScore(context, player.id.toString(), 0)
+                player.copy(score = 0)
+            }
+            _gameState.emit(_gameState.value.copy(players = initialPlayers))
+        }
+    }
 }
