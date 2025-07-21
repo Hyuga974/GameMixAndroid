@@ -46,7 +46,9 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 4,
                 minPlayers = 4,
                 gameName = "Belote",
-                navController = navController
+                navController = navController,
+                viewModel = viewModel()
+
             )
         }
         composable("PresidentScreenGame") {
@@ -54,7 +56,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 7,
                 minPlayers = 2,
                 gameName = "Président",
-                navController = navController
+                navController = navController,
+                viewModel = viewModel()
             )
         }
 
