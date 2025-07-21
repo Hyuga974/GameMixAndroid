@@ -19,6 +19,7 @@ fun DynamicPlayerTable(
     players: List<Player>,
     onPlayerClick: (Player) -> Unit
 ) {
+    println("Current Players inside Dynamic Players Table: $players")
     Box(
         modifier = Modifier
             .width(250.dp)
