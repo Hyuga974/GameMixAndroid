@@ -21,5 +21,5 @@ data class Player (
     @Serializable(with = UUIDSerializer::class)
     val id: UUID = UUID.randomUUID(),
     val name: String,
-    val score: Int = 0
+    var score: Int = 0
 )

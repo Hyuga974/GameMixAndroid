@@ -13,7 +13,6 @@ import androidx.compose.ui.window.Dialog
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.ui.theme.Background
-import kotlin.toString
 
 @Composable
 fun ScoreModal(
@@ -21,30 +20,27 @@ fun ScoreModal(
     onDismiss: () -> Unit,
     onUpdateScore: (Int) -> Unit
 ) {
-    var scoreInput by remember { mutableStateOf(player.score.toString()) }
-
-    val context = LocalContext.current
-    val scoreFlow = PlayerScoreCache.getScore(context, player.id.toString())
-    val score by scoreFlow.collectAsState(initial = 0)
+    var scoreInput by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(shape = MaterialTheme.shapes.medium, color = Background) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text("Joueur : ${player.name}", style = MaterialTheme.typography.titleLarge)
-                Text("Score actuel : $score")
+                Text("Score actuel : ${player.score}")
                 OutlinedTextField(
                     value = scoreInput,
                     onValueChange = { scoreInput = it },
                     label = { Text("Nouveau score") }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = {
+                CustomButton(text = "Valider", onClick = {
                     val newScore = scoreInput.toIntOrNull()
-                    if (newScore != null) onUpdateScore(newScore)
-                    onDismiss()
-                }) {
-                    Text("Valider")
-                }
+                    if (newScore != null) {
+                        onUpdateScore(newScore)
+                        scoreInput = ""
+                        onDismiss()
+                    }
+                })
             }
         }
     }

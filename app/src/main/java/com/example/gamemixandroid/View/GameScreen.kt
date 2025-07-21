@@ -41,11 +41,10 @@ import com.example.gamemixandroid.ui.theme.Secondary
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
-    val gameState by viewModel.gameState.collectAsState()
-    gameState.players
-    print("Current Players: $gameState.players")
-    gameState.players = playerList
-    print("Current Players: $gameState.players")
+    val game by viewModel.gameState.collectAsState()
+    print("Current Players: ${game.players}")
+    game.players = playerList as MutableList<Player>
+    print("Current Players: ${game.players}")
     var showModal by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
     var context = LocalContext.current
@@ -95,7 +94,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
         ) {
             // Table dynamique des joueurs
             DynamicPlayerTable(
-                gameState.players,
+                game.players,
                 onPlayerClick = { player ->
                     selectedPlayer = player
                     showModal = true
@@ -107,8 +106,10 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
                 player = selectedPlayer!!,
                 onDismiss = { showModal = false },
                 onUpdateScore = { newScore ->
-                    viewModel.editScoreToPlayer(selectedPlayer!!.id, newScore - selectedPlayer!!.score, context)
-                },
+                    viewModel.updateScore(selectedPlayer!!.id, newScore)
+                    showModal = false
+                    selectedPlayer = null
+                }
             )
         }
 
@@ -119,7 +120,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             text = if (!gameBegin) "Commencer" else "Recommencer",
             textColor = Color.White,
             onClick = {
-                viewModel.startGame(context)
+                viewModel.startGame()
                 gameBegin = true
                 showModal = false
                 selectedPlayer = null},

@@ -1,77 +1,33 @@
 package com.example.gamemixandroid.ViewModel
 
-
-import android.content.Context
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.gamemixandroid.Model.GameState
-import com.example.gamemixandroid.Model.Player
-import com.example.gamemixandroid.PlayerScoreCache
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import com.example.gamemixandroid.Model.Game
 import java.util.UUID
 
 class GameViewModel : ViewModel() {
-    // État initial du jeu
-    private val _gameState = MutableStateFlow(
-        GameState(
-            players = emptyList(),
-            currentAction = "",
-            gameName = ""
-        )
-    )
+    private val game = Game()
+    private val _gameState = MutableStateFlow(game)
+    val gameState: StateFlow<Game> = _gameState
 
-
-    // Exposer l'état du jeu à la View
-    val gameState: StateFlow<GameState> = _gameState
-
-    fun setupGame(players: List<Player>, initialAction: String, gameName: String) {
-        viewModelScope.launch {
-            _gameState.emit(
-                GameState(
-                    players = players,
-                    currentAction = initialAction,
-                    gameName = gameName
-                )
-            )
-        }
+    fun addPlayer(name: String) {
+        val result = game.addPlayer(name)
+        if (result.isSuccess) _gameState.value = game
     }
 
-    fun updateAction(newAction: String) {
-        viewModelScope.launch {
-            _gameState.emit(_gameState.value.copy(currentAction = newAction))
-        }
+    fun removePlayer(name: String) {
+        val result = game.removePlayer(name)
+        if (result.isSuccess) _gameState.value = game
     }
 
-    fun editScoreToPlayer(playerID : UUID, newScore: Int, context: Context) {
-        viewModelScope.launch {
-            PlayerScoreCache.saveScore(context, playerID.toString(), newScore)
-//            val updatedPlayers = _gameState.value.players.map { player ->
-//                if (player.id == playerID ){
-//                    player.copy(score = player.score + newScore)
-//                }
-//                else player
-//            }
-//            _gameState.emit(_gameState.value.copy(players = updatedPlayers))
-        }
+    fun startGame() {
+        val result = game.startGame()
+        if (result.isSuccess) _gameState.value = game
     }
 
-    fun getPlayerScore(context: Context, playerId: String): Flow<Int> {
-        return PlayerScoreCache.getScore(context, playerId)
-    }
-
-    fun startGame(context: Context) {
-        viewModelScope.launch {
-            val initialPlayers = _gameState.value.players.map { player ->
-                PlayerScoreCache.saveScore(context, player.id.toString(), 0)
-                player.copy(score = 0)
-            }
-            _gameState.emit(_gameState.value.copy(players = initialPlayers))
-        }
+    fun updateScore(id: UUID, score: Int) {
+        val result = game.updateScore(id, score)
+        if (result.isSuccess) _gameState.value = game
     }
 }
