@@ -1,7 +1,9 @@
 package com.example.gamemixandroid.Model
 
+import com.example.gamemixandroid.Model.Player
+
 data class GameState (
-    val players: List<Player>,
+    var players: List<Player>,
     val currentAction: String,
     val gameName : String
 )

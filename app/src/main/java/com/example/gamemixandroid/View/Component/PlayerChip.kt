@@ -14,10 +14,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PlayerChip(name: String) {
+fun PlayerChip(name: String,  modifier: Modifier = Modifier) {
     val displayName = if (name.length >= 3) name.substring(0, 3) else name
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(60.dp)
             .clip(CircleShape)
             .background(Color.White),

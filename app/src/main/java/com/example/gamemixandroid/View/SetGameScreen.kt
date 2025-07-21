@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.AddPlayer
 import com.example.gamemixandroid.View.Component.CustomButton
@@ -32,6 +34,7 @@ import com.example.gamemixandroid.ui.theme.*
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 import kotlinx.serialization.encodeToString
+import kotlin.toString
 
 
 @Composable
@@ -46,6 +49,8 @@ fun SetGameScreen(
     val players = viewModel.players
     val keyboardController = LocalSoftwareKeyboardController.current // Keyboard controller
     val gameViewModel: GameViewModel = viewModel()
+
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -103,7 +108,18 @@ fun SetGameScreen(
                         viewModel = viewModel,
                         maxPlayers = maxPlayers,
                         newPlayerName = newPlayerName,
-                        onValueChange = { newPlayerName = it }
+                        onValueChange = { newPlayerName = it },
+                        onClick = {
+                            viewModel.addPlayer(newPlayerName.text, maxPlayers)
+                            val newPlayer = viewModel.players.lastOrNull()
+                            if (newPlayer != null) {
+                                LaunchedEffect(newPlayer.id) {
+                                    PlayerScoreCache.saveScore(context, newPlayer.id.toString(), 0)
+                                }
+                            }
+                            newPlayerName = TextFieldValue("")
+                            keyboardController?.hide()
+                        }
                     )
                     //Spacer(modifier = Modifier.height(8.dp))
                     PlayerTable(players, onRemove = { viewModel.removePlayer(it) })

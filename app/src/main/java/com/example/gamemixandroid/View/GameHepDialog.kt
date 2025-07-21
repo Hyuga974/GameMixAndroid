@@ -168,23 +168,23 @@ fun ButtonInfoItem(title: String, description: String) {
     }
 }
 
-// Utilisation dans votre écran
-@Composable
-fun GameScreen(viewModel: GameViewModel, navController: NavController) {
-    var showHelpDialog = false
-
-    Button(
-        onClick = { showHelpDialog = true },
-        shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(Color.Gray)
-    ) {
-        Text("?")
-    }
-
-    if (showHelpDialog) {
-        GameRulesDialog(
-            gameName = "Belote", // Récupérez le nom du jeu depuis votre ViewModel
-            onDismiss = { showHelpDialog = false }
-        )
-    }
-}
+//// Utilisation dans votre écran
+//@Composable
+//fun GameScreen(viewModel: GameViewModel, navController: NavController) {
+//    var showHelpDialog = false
+//
+//    Button(
+//        onClick = { showHelpDialog = true },
+//        shape = CircleShape,
+//        colors = ButtonDefaults.buttonColors(Color.Gray)
+//    ) {
+//        Text("?")
+//    }
+//
+//    if (showHelpDialog) {
+//        GameRulesDialog(
+//            gameName = "Belote", // Récupérez le nom du jeu depuis votre ViewModel
+//            onDismiss = { showHelpDialog = false }
+//        )
+//    }
+//}

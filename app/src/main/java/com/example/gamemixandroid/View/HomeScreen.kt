@@ -46,7 +46,9 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 4,
                 minPlayers = 4,
                 gameName = "Belote",
-                navController = navController
+                navController = navController,
+                viewModel = viewModel()
+
             )
         }
         composable("PresidentScreenGame") {
@@ -54,7 +56,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 maxPlayers = 7,
                 minPlayers = 2,
                 gameName = "Président",
-                navController = navController
+                navController = navController,
+                viewModel = viewModel()
             )
         }
 
@@ -70,7 +73,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             println("playersJson reçu : $json")
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
-            GameScreen(players = players, viewModel = gameViewModel, navController = navController)
+            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
         }
 
         // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
@@ -86,7 +89,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             println("playersJson reçu : $json")
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
-            GameScreen(players = players, viewModel = gameViewModel, navController = navController)
+            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
         }
     }
 }
