@@ -40,10 +40,17 @@ import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 
 @Composable
-fun GameScreen(viewModel: GameViewModel, navController: NavController, players: List<Player>) {
+fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
+    val gameState by viewModel.gameState.collectAsState()
+    gameState.players
+    print("Current Players: $gameState.players")
+    gameState.players = playerList
+    print("Current Players: $gameState.players")
     var showModal by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
     var context = LocalContext.current
+    var gameBegin by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +95,7 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
         ) {
             // Table dynamique des joueurs
             DynamicPlayerTable(
-                players,
+                gameState.players,
                 onPlayerClick = { player ->
                     selectedPlayer = player
                     showModal = true
@@ -107,12 +114,17 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
 
         Spacer(modifier = Modifier.height(16.dp))
         // Action Buttons
+
         CustomButton(
-            "Commencer",
+            text = if (!gameBegin) "Commencer" else "Recommencer",
             textColor = Color.White,
-            onClick = { println("Commnce le Jeu") },
+            onClick = {
+                viewModel.startGame(context)
+                gameBegin = true
+                showModal = false
+                selectedPlayer = null},
             height = 60,
-            width=0.8f,
+            width = 0.8f,
             fontSize = 20.sp,
             backgroundColor = Primary
         )
@@ -134,19 +146,5 @@ fun GameScreen(viewModel: GameViewModel, navController: NavController, players: 
             width=0.8f,
             fontSize = 20.sp,
             backgroundColor = Primary)
-    }
-}
-
-
-@Composable
-fun ActionButton(text: String) {
-    Button(
-        onClick = { /* TODO: Implement Actions */ },
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .padding(vertical = 4.dp),
-        colors = ButtonDefaults.buttonColors(Primary)
-    ) {
-        Text(text, fontSize = 18.sp, color = Color.White)
     }
 }
