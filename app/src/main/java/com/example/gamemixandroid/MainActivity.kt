@@ -7,9 +7,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.gamemixandroid.View.HomeScreen
 import com.example.gamemixandroid.ui.theme.GameMixAndroidTheme
 import com.example.ui.home.GameListScreen
-import com.example.ui.home.HomeScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

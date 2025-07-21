@@ -1,28 +1,30 @@
-package com.example.ui.home
+package com.example.gamemixandroid.View
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
+import com.example.gamemixandroid.View.Component.CustomButton
+import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
-import com.example.gamemixandroid.ui.theme.Primary
+import com.example.ui.home.GameListScreen
+import com.example.ui.home.HomeViewModel
+import kotlinx.serialization.json.Json
+import java.net.URLDecoder
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
@@ -30,11 +32,61 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 
     // Navigation Host setup
     NavHost(navController = navController, startDestination = "homeScreen") {
-        composable("GameListScreen") {
-            GameListScreen(viewModel) // Ensure GameListScreen is implemented
-        }
+
         composable("homeScreen") {
-            HomeContent(navController) // Delegate the home screen content to another function
+            HomeContent(navController)
+        }
+
+        composable("GameListScreen") {
+            GameListScreen(viewModel, navController)
+        }
+
+        composable("BeloteScreenGame") {
+            SetGameScreen(
+                maxPlayers = 4,
+                minPlayers = 4,
+                gameName = "Belote",
+                navController = navController
+            )
+        }
+        composable("PresidentScreenGame") {
+            SetGameScreen(
+                maxPlayers = 7,
+                minPlayers = 2,
+                gameName = "Président",
+                navController = navController
+            )
+        }
+
+        composable(
+            route = "présidentGame/{playersJson}",
+            arguments = listOf(navArgument("playersJson") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            // print the playersJson argument
+            val json = backStackEntry.arguments?.getString("playersJson")
+                ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
+            val players: List<Player> = Json.decodeFromString(json)
+            val gameViewModel: GameViewModel = viewModel()
+            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
+        }
+
+        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
+        composable(
+            route = "beloteGame/{playersJson}",
+            arguments = listOf(navArgument("playersJson") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            // print the playersJson argument
+            val json = backStackEntry.arguments?.getString("playersJson")
+                ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
+            println("playersJson reçu : $json")
+            val players: List<Player> = Json.decodeFromString(json)
+            val gameViewModel: GameViewModel = viewModel()
+            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
         }
     }
 }
@@ -50,7 +102,6 @@ fun HomeContent(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Logo Section
@@ -58,12 +109,12 @@ fun HomeContent(navController: NavController) {
                 painter = painterResource(id = R.drawable.gamemixlogo_transparent), // Replace with your logo resource ID
                 contentDescription = "GameMix Logo",
                 modifier = Modifier
-                    .height(350.dp)
+                    .height(500.dp)
                     .fillMaxWidth()
             )
 
             // Welcome Text Section
-            Column(
+            /*Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -78,18 +129,16 @@ fun HomeContent(navController: NavController) {
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center
                 )
-            }
+            }*/
 
             // Button Section
-            Button(
+            CustomButton(
+                "JOUER !",
                 onClick = { navController.navigate("GameListScreen") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(Primary)
-            ) {
-                Text(text = "Commencer →", fontSize = 18.sp, color = Color.White)
-            }
+                height = 70,
+                fontSize = 24.sp,
+            )
+
         }
     }
 }
