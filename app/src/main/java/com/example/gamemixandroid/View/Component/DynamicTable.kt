@@ -1,8 +1,9 @@
+
 package com.example.gamemixandroid.View.Component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,83 +13,82 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ui.theme.Secondary
+
 @Composable
-fun DynamicPlayerTable(players: List<Player>) {
+fun DynamicPlayerTable(
+    players: List<Player>,
+    onPlayerClick: (Player) -> Unit
+) {
     Box(
         modifier = Modifier
-            .size(300.dp)
+            .width(250.dp)
+            .height(500.dp)
             .background(Color.DarkGray, shape = MaterialTheme.shapes.large)
-            .border(6.dp, Secondary, MaterialTheme.shapes.large),
+            .border(
+                width = 6.dp,
+                color = Secondary,
+                shape = MaterialTheme.shapes.large
+            ),
         contentAlignment = Alignment.Center
     ) {
-        // Centre de la table
-        Box(
-            modifier = Modifier
-                .size(200.dp)
-                .background(Color.Gray, shape = MaterialTheme.shapes.medium)
-        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            val playerCount = players.size
 
-        // Top players (0, 1)
-        if (players.size > 0) {
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (players.size > 0) PlayerChip(players[0].name)
-                if (players.size > 1) PlayerChip(players[1].name)
+            if (playerCount >= 1) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    PlayerChip(
+                        name = players[0].name,
+                        modifier = Modifier.clickable { onPlayerClick(players[0]) }
+                    )
+                    if (playerCount >= 2) PlayerChip(
+                        name = players[1].name,
+                        modifier = Modifier.clickable { onPlayerClick(players[1]) }
+                    )
+                }
             }
-        }
 
-        // Bottom players (6, 7)
-        if (players.size > 6) {
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (players.size > 6) PlayerChip(players[6].name)
-                if (players.size > 7) PlayerChip(players[7].name)
+            if (playerCount >= 3) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    PlayerChip(
+                        name = players[2].name,
+                        modifier = Modifier.clickable { onPlayerClick(players[2]) }
+                    )
+                    if (playerCount >= 4) PlayerChip(
+                        name = players[3].name,
+                        modifier = Modifier.clickable { onPlayerClick(players[3]) }
+                    )
+                }
             }
-        }
 
-        // Left players (2, 3)
-        if (players.size > 2) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (players.size > 2) PlayerChip(players[2].name)
-                if (players.size > 3) PlayerChip(players[3].name)
+            if (playerCount >= 5) {
+                PlayerChip(
+                    name = players[4].name,
+                    modifier = Modifier.clickable { onPlayerClick(players[4]) }
+                )
             }
-        }
 
-        // Right players (4, 5)
-        if (players.size > 4) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (players.size > 4) PlayerChip(players[4].name)
-                if (players.size > 5) PlayerChip(players[5].name)
-            }
-        }
-
-        // Center players (8, 9)
-        if (players.size > 8) {
-            Column(
-                modifier = Modifier.align(Alignment.Center),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (players.size > 8) PlayerChip(players[8].name)
-                if (players.size > 9) PlayerChip(players[9].name)
+            if (playerCount > 5) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    players.drop(5).forEach { player ->
+                        PlayerChip(
+                            name = player.name,
+                            modifier = Modifier.clickable { onPlayerClick(player) }
+                        )
+                    }
+                }
             }
         }
     }
