@@ -41,7 +41,7 @@ class Game(
 
     fun updateScore(id: UUID, newScore: Int): GameResult {
         val player = players.find { it.id == id } ?: return GameResult(false, "Le joueur n'existe pas.")
-        player.score = newScore
+        player.score += newScore
         return GameResult(true)
     }
 

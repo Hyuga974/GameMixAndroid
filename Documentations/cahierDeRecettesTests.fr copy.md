@@ -15,11 +15,11 @@
 
 # 1. Plan de Test
 
-| Domaine          | Fonctionnalités Couvertes      | Types de Tests                  | Outils            |
-|------------------|--------------------------------|---------------------------------|-------------------|
-| Fonctionnel      | US001-US015                    | Unitaires, Intégration, E2E     | JUnit, Espresso   |
-| Sécurité         | US016-US018                    | Tests de sécurité               | OWASP ZAP         |
-| Structurel       | US019                          | Couverture de code              | JaCoCo, SonarQube |
+| Domaine          | Fonctionnalités Couvertes | Types de Tests                  | Outils            |
+|------------------|---------------------------|---------------------------------|-------------------|
+| Fonctionnel      | US001-US014               | Unitaires, Intégration, E2E     | JUnit, Espresso   |
+| Sécurité         | US015-US017               | Tests de sécurité               | OWASP ZAP         |
+| Structurel       | US018                     | Couverture de code              | JaCoCo, SonarQube |
 
 # 2. Scénarios de Test
 
@@ -68,35 +68,19 @@
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** que je suis sur l'écran de création de partie, **LORSQUE** je sélectionne un type de jeu (par exemple, Belote), **ALORS** les options du jeu apparaissent  
   - **ÉTANT DONNÉ** que j'ai ajouté des joueurs, **LORSQUE** j'atteins le nombre minimum de joueurs requis, **ALORS** le bouton JOUER devient activé  
-  - **ÉTANT DONNÉ** que j'ai configuré la partie, **LORSQUE** je clique sur JOUER, **ALORS** la partie démarre et je suis redirigé vers l'écran de jeu  
+  - **ÉTANT DONNÉ** que j'ai configuré la partie, **LORSQUE** je clique sur JOUER, **ALORS** la partie démarre et je suis redirigé vers l'écran de jeu
 
-### US005 - Ajout d'un joueur à une partie
-**En tant qu'** utilisateur,  
-**Je veux** ajouter un nouveau joueur à une partie en cours,  
-**Afin de** permettre à d'autres de rejoindre la partie.
-
-**Critères d'acceptation :**  
-  - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j'ajoute un nouveau joueur, **ALORS** la liste des joueurs est mise à jour en temps réel dans l'interface.
-
-### US006 - Limite de joueurs et gestion des erreurs
-**En tant qu'** utilisateur,  
-**Je veux** être informé lorsque la limite de joueurs est atteinte,  
-**Afin de** ne pas pouvoir ajouter plus de joueurs que prévu
-
-**Critères d'acceptation :**  
-  - **ÉTANT DONNÉ** que la limite de joueurs est atteinte dans une partie, **LORSQUE** j'essaie d'ajouter un joueur supplémentaire, **ALORS** je reçois un message d'erreur m'informant que la limite est dépassée et la liste n'est pas modifiée.
-
-### US007 - Édition des Scores
+### US006 - Édition des Scores
 **En tant qu'** utilisateur,  
 **Je veux** mettre à jour les scores,  
 **Afin de** pouvoir les gérer.  
 
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je mets à jour le score d'un joueur, **ALORS** le score du joueur est mis à jour dans la liste des joueurs.  
-  - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je mets à jour le score d'un joueur avec un score négatif, **ALORS** je reçois un message d'erreur m'informant que le score ne peut pas être négatif.  
+  - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je mets à jour le score d'un joueur avec un score négatif, **ALORS** le score du joueur est mis à jour dans la liste des joueurs..  
   - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j'essaie de mettre à jour le score d'un joueur qui n'existe pas, **ALORS** je reçois un message d'erreur m'informant que le joueur n'existe pas. 
 
-### US008 - Gestion des Scores pendant une Partie
+### US007 - Gestion des Scores pendant une Partie
 **En tant qu'** utilisateur,  
 **Je veux** mettre à jour les scores des joueurs pendant une partie,  
 **Afin de** pouvoir suivre précisément la progression.  
@@ -106,7 +90,7 @@
   - **ÉTANT DONNÉ** que je modifie un score, **LORSQUE** j'enregistre les modifications, **ALORS** l'interface utilisateur se met à jour instantanément  
   - **ÉTANT DONNÉ** que j'entre un score invalide, **LORSQUE** j'essaie de l'enregistrer, **ALORS** je reçois un retour de validation immédiat  
 
-### US009 - Mise à jour des scores
+### US008 - Mise à jour des scores
 **En tant qu'** utilisateur,  
 **Je veux** voir immédiatement les scores mis à jour,  
 **Afin de** suivre en temps réel l'évolution du jeu.
@@ -114,7 +98,7 @@
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** une partie en cours avec des joueurs, **LORSQUE** je mets à jour le score d'un joueur, **ALORS** le nouveau score est affiché immédiatement dans l'interface.
 
-### US010 - Réinitialisation des Scores
+### US009 - Réinitialisation des Scores
 **En tant qu'** utilisateur,  
 **Je veux** réinitialiser tous les scores pendant une partie,  
 **Afin de** pouvoir commencer un nouveau tour facilement.  
@@ -125,7 +109,7 @@
   - **ÉTANT DONNÉ** que j'annule la réinitialisation, **LORSQUE** la boîte de dialogue se ferme, **ALORS** les scores restent inchangés  
 
 
-### US011 - Connexion et Contrôle d'un Appareil Externe
+### US010 - Connexion et Contrôle d'un Appareil Externe
 **En tant qu'** utilisateur,  
 **Je veux** me connecter à un appareil externe de cartes,  
 **Afin de** automatiser le mélange et la distribution des cartes.  
@@ -135,7 +119,7 @@
   - **ÉTANT DONNÉ** une connexion réussie, **LORSQUE** j'envoie une commande de mélange, **ALORS** l'appareil exécute en moins de 3s  
   - **ÉTANT DONNÉ** que je suis connecté, **LORSQUE** j'envoie une commande de distribution, **ALORS** les cartes sont distribuées comme configuré  
 
-### US012 - Connexion Bluetooth et contrôle de l'appareil
+### US011 - Connexion Bluetooth et contrôle de l'appareil
 
 **En tant qu'** utilisateur,  
 **Je veux** utiliser le Bluetooth pour contrôler un appareil externe,  
@@ -144,7 +128,7 @@
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** que je souhaite utiliser un appareil externe, **LORSQUE** je me connecte via Bluetooth et envoie une commande, **ALORS** l'appareil externe exécute la commande (mélange ou distribution des cartes).
 
-### US013 - Gestion des Erreurs de Connexion Bluetooth
+### US012 - Gestion des Erreurs de Connexion Bluetooth
 **En tant qu'** utilisateur,  
 **Je veux** recevoir des messages d'erreur clairs,  
 **Afin de** résoudre efficacement les problèmes de connexion Bluetooth.  
@@ -155,7 +139,7 @@
   - **ÉTANT DONNÉ** une déconnexion en milieu de partie, **LORSQUE** un échec se produit, **ALORS** je vois des options de reconnexion  
   - **ÉTANT DONNÉ** que je tente de me connecter à un appareil Bluetooth indisponible, **LORSQUE** la connexion échoue, **ALORS** je reçois un message d'erreur explicite.
 
-### US014 - Prise en Charge Multi-Résolution
+### US013 - Prise en Charge Multi-Résolution
 **En tant qu'** utilisateur,  
 **Je veux** utiliser l'application sur différents appareils,  
 **Afin d'** avoir une expérience cohérente sur tous les écrans.  
@@ -165,7 +149,7 @@
   - **ÉTANT DONNÉ** que je suis sur tablette (ex: 2560x1600), **LORSQUE** j'utilise les mises en page, **ALORS** l'utilisation de l'espace s'adapte  
   - **ÉTANT DONNÉ** que je pivote l'appareil, **LORSQUE** l'orientation change, **ALORS** l'interface se réorganise correctement  
 
-### US015 - Navigation entre les Écrans de l'Application
+### US014 - Navigation entre les Écrans de l'Application
 **En tant qu'** utilisateur,  
 **Je veux** naviguer de manière fluide entre tous les écrans de l'application,  
 **Afin d'** accéder à toutes les fonctionnalités de manière transparente et passer facilement d'une fonctionnalité à l'autre.
@@ -178,7 +162,7 @@
 
 ## 2.2 Tests de Sécurité
 
-### US016 - Gestion des Permissions
+### US015 - Gestion des Permissions
 **En tant qu'** utilisateur,  
 **Je veux** contrôler les permissions de l'application,  
 **Afin que** ma vie privée soit respectée.  
@@ -189,7 +173,7 @@
 - **ÉTANT DONNÉ** que je refuse une permission, **LORSQUE** je réessaie l'action, **ALORS** je vois une dégradation gracieuse  
 - **ÉTANT DONNÉ** que je révoque une permission, **LORSQUE** je rouvre l'application, **ALORS** les fonctionnalités se désactivent de manière appropriée  
 
-### US017 - Sécurité Bluetooth
+### US016 - Sécurité Bluetooth
 **En tant qu'** utilisateur,  
 **Je veux** garantir des connexions sécurisées,  
 **Afin que** mon appareil reste protégé.  
@@ -199,7 +183,7 @@
 - **ÉTANT DONNÉ** des appareils non autorisés, **LORSQUE** ils tentent de s'appairer, **ALORS** ils reçoivent un refus de connexion  
 - **ÉTANT DONNÉ** une connexion active, **LORSQUE** une attaque de l'homme du milieu se produit, **ALORS** la connexion se termine  
 
-### US018 - Protection des Données
+### US017 - Protection des Données
 **En tant qu'** utilisateur,  
 **Je veux** garder mes données de jeu privées,  
 **Afin que** d'autres ne puissent pas y accéder.  
@@ -212,7 +196,7 @@
 ## 2.3 Tests Structurels
 
 
-### US019 - Couverture des Branches Conditionnelles
+### US018 - Couverture des Branches Conditionnelles
 **En tant que** développeur,  
 **Je veux** vérifier que tous les chemins de code sont testés,  
 **Afin que** la logique fonctionne dans tous les scénarios.  
