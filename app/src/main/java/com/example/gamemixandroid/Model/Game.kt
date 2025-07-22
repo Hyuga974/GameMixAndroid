@@ -14,7 +14,6 @@ class Game(
     var players = mutableListOf<Player>()
     var state: GameStateEnum = GameStateEnum.CREATED
 
-    // Ajout d'un joueur avec toutes les validations
     fun addPlayer(name: String): GameResult {
         if (state != GameStateEnum.CREATED) return GameResult(false, "Impossible d'ajouter un joueur après le début de la partie.")
         if (name.isBlank()) return GameResult(false, "Le pseudonyme est obligatoire.")
@@ -28,13 +27,11 @@ class Game(
         return GameResult(true)
     }
 
-    // Suppression d'un joueur
     fun removePlayer(name: String): GameResult {
         val removed = players.removeIf { it.name == name }
         return if (removed) GameResult(true, "Joueur supprimé.") else GameResult(false, "Joueur introuvable.")
     }
 
-    // Démarrage de la partie
     fun startGame(): GameResult {
         if (players.size < minPlayers) return GameResult(false, "Nombre de joueurs insuffisant pour démarrer la partie.")
         state = GameStateEnum.STARTED
@@ -42,14 +39,12 @@ class Game(
         return GameResult(true)
     }
 
-    // Mise à jour du score
     fun updateScore(id: UUID, newScore: Int): GameResult {
         val player = players.find { it.id == id } ?: return GameResult(false, "Le joueur n'existe pas.")
         player.score = newScore
         return GameResult(true)
     }
 
-    // Réinitialisation des scores
     fun resetScores(): GameResult {
         players.forEach { it.score = 0 }
         return GameResult(true)
