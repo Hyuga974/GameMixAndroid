@@ -70,7 +70,7 @@
   - **ÉTANT DONNÉ** que j'ai ajouté des joueurs, **LORSQUE** j'atteins le nombre minimum de joueurs requis, **ALORS** le bouton JOUER devient activé  
   - **ÉTANT DONNÉ** que j'ai configuré la partie, **LORSQUE** je clique sur JOUER, **ALORS** la partie démarre et je suis redirigé vers l'écran de jeu  
 
-### US005 - **Ajout d'un joueur à une partie**
+### US005 - Ajout d'un joueur à une partie
 **En tant qu'** utilisateur,  
 **Je veux** ajouter un nouveau joueur à une partie en cours,  
 **Afin de** permettre à d'autres de rejoindre la partie.
@@ -78,7 +78,7 @@
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j'ajoute un nouveau joueur, **ALORS** la liste des joueurs est mise à jour en temps réel dans l'interface.
 
-### US006 - **Limite de joueurs et gestion des erreurs**
+### US006 - Limite de joueurs et gestion des erreurs
 **En tant qu'** utilisateur,  
 **Je veux** être informé lorsque la limite de joueurs est atteinte,  
 **Afin de** ne pas pouvoir ajouter plus de joueurs que prévu
@@ -106,7 +106,7 @@
   - **ÉTANT DONNÉ** que je modifie un score, **LORSQUE** j'enregistre les modifications, **ALORS** l'interface utilisateur se met à jour instantanément  
   - **ÉTANT DONNÉ** que j'entre un score invalide, **LORSQUE** j'essaie de l'enregistrer, **ALORS** je reçois un retour de validation immédiat  
 
-### US009 - **Mise à jour des scores**
+### US009 - Mise à jour des scores
 **En tant qu'** utilisateur,  
 **Je veux** voir immédiatement les scores mis à jour,  
 **Afin de** suivre en temps réel l'évolution du jeu.
@@ -135,7 +135,7 @@
   - **ÉTANT DONNÉ** une connexion réussie, **LORSQUE** j'envoie une commande de mélange, **ALORS** l'appareil exécute en moins de 3s  
   - **ÉTANT DONNÉ** que je suis connecté, **LORSQUE** j'envoie une commande de distribution, **ALORS** les cartes sont distribuées comme configuré  
 
-### US012 - **Connexion Bluetooth et contrôle de l'appareil**
+### US012 - Connexion Bluetooth et contrôle de l'appareil
 
 **En tant qu'** utilisateur,  
 **Je veux** utiliser le Bluetooth pour contrôler un appareil externe,  
