@@ -18,12 +18,12 @@ class RemovePlayerTest {
 
     @Test
     fun `removing a player from the game`() {
-        game.addPlayer("Alice")
-        game.addPlayer("Bob")
-        val result = game.removePlayer("Alice")
+        game.addPlayer("Alicia")
+        game.addPlayer("Bella")
+        val result = game.removePlayer("Alicia")
         assert(result.isSuccess)
-        assert(game.players.none { it.name == "Alice" })
-        assert(game.players.any { it.name == "Bob" })
+        assert(game.players.none { it.name == "Alicia" })
+        assert(game.players.any { it.name == "Bella" })
 
     }
 
@@ -33,9 +33,9 @@ class RemovePlayerTest {
 
     @Test
     fun `deletion of a player with confirmation message`() {
-        game.addPlayer("Alice")
-        game.addPlayer("Bob")
-        val result = game.removePlayer("Alice")
+        game.addPlayer("Alicia")
+        game.addPlayer("Bella")
+        val result = game.removePlayer("Alicia")
         assert(result.isSuccess)
         assert(result.message == "Joueur supprimé.")
     }

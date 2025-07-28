@@ -30,7 +30,7 @@ class CreateGameTest {
 
     @Test
     fun `create game with too few players`() {
-        game.addPlayer("Alice")
+        game.addPlayer("Alicia")
         val result = game.startGame()
         assert(!result.isSuccess)
         assert(result.message == "Nombre de joueurs insuffisant pour démarrer la partie.")
@@ -42,8 +42,8 @@ class CreateGameTest {
 
     @Test
     fun `creating a game with too many players`() {
-        game.addPlayer("Alice")
-        game.addPlayer("Bob")
+        game.addPlayer("Alicia")
+        game.addPlayer("Bella")
         game.addPlayer("Charlie")
         game.addPlayer("David")
         val result = game.addPlayer("Eve")
@@ -57,13 +57,13 @@ class CreateGameTest {
 
     @Test
     fun `creation of a game with the requested number of players`() {
-        game.addPlayer("Alice")
-        game.addPlayer("Bob")
+        game.addPlayer("Alicia")
+        game.addPlayer("Bella")
         val result = game.startGame()
         assert(result.isSuccess)
         assert(game.players.size == 2)
-        assert(game.players[0].name == "Alice")
-        assert(game.players[1].name == "Bob")
+        assert(game.players[0].name == "Alicia")
+        assert(game.players[1].name == "Bella")
     }
 
 // **ÉTANT DONNÉ** que je suis sur l'écran de création de partie,
@@ -72,8 +72,8 @@ class CreateGameTest {
 
     @Test
     fun `creating a game with an initial score of 0 for all players`() {
-        game.addPlayer("Alice")
-        game.addPlayer("Bob")
+        game.addPlayer("Alicia")
+        game.addPlayer("Bella")
         val result = game.startGame()
         assert(result.isSuccess)
         assert(game.players.all { it.score == 0 })

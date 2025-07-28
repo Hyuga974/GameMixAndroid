@@ -88,7 +88,7 @@
 **Critères d'acceptation :**  
   - **ÉTANT DONNÉ** une partie en cours avec des joueurs, **LORSQUE** je mets à jour le score d'un joueur, **ALORS** le nouveau score est affiché immédiatement dans l'interface.
 
-### US009 - Réinitialisation des Scores
+### US007 - Réinitialisation des Scores
 **En tant qu'** utilisateur,  
 **Je veux** réinitialiser tous les scores pendant une partie,  
 **Afin de** pouvoir commencer un nouveau tour facilement.  

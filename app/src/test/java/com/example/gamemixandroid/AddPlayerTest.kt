@@ -19,9 +19,9 @@ class AddPlayerTest {
 
     @Test
     fun `ajout d'un joueur avec un pseudonyme valide`() {
-        val result = game.addPlayer("Alice")
+        val result = game.addPlayer("Alicia")
         assertTrue(result.isSuccess)
-        assertTrue(game.players.any { it.name == "Alice" })
+        assertTrue(game.players.any { it.name == "Alicia" })
     }
 
 // **ÉTANT DONNÉ** une partie en création,
@@ -30,8 +30,8 @@ class AddPlayerTest {
 
     @Test
     fun `ajout d'un joueur avec un pseudonyme déjà pris`() {
-        game.addPlayer("Alice")
-        val result = game.addPlayer("Alice")
+        game.addPlayer("Alicia")
+        val result = game.addPlayer("Alicia")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme est déjà utilisé.")
     }
@@ -75,7 +75,7 @@ class AddPlayerTest {
 
     @Test
     fun `ajout d'un joueur avec un pseudonyme contenant des caractères spéciaux`() {
-        val result = game.addPlayer("Alice@123")
+        val result = game.addPlayer("Alicia@123")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme ne doit pas contenir de caractères spéciaux.")
     }
@@ -86,7 +86,7 @@ class AddPlayerTest {
 
     @Test
     fun `ajout d'un joueur avec un pseudonyme contenant des espaces`() {
-        val result = game.addPlayer("Alice Smith")
+        val result = game.addPlayer("Alicia Smith")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme ne doit pas contenir d'espaces.")
     }

@@ -41,26 +41,26 @@ class EditScoreTest {
         composeTestRule.onNodeWithTag("PresidentButton").performClick()
         composeTestRule.onNodeWithTag("SetGameScreen_Président").assertIsDisplayed()
 
-        // Ajouter Alice
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alice")
+        // Ajouter Alicia
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alicia")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
-        // Ajouter Bob
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bob")
+        // Ajouter Bella
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bella")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
 
         // Vérifier que les joueurs sont affichés
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
-            composeTestRule.onAllNodesWithTag("PlayerRow_Alice").fetchSemanticsNodes().isNotEmpty()
+            composeTestRule.onAllNodesWithTag("PlayerRow_Alicia").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
-            composeTestRule.onAllNodesWithTag("PlayerRow_Bob").fetchSemanticsNodes().isNotEmpty()
+            composeTestRule.onAllNodesWithTag("PlayerRow_Bella").fetchSemanticsNodes().isNotEmpty()
         }
 
         // Démarrer la partie
         composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
         composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
 
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("10")
@@ -92,19 +92,19 @@ class EditScoreTest {
         composeTestRule.onNodeWithTag("PresidentButton").performClick()
         composeTestRule.onNodeWithTag("SetGameScreen_Président").assertIsDisplayed()
 
-        // Ajouter Alice
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alice")
+        // Ajouter Alicia
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alicia")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
 
-        // Ajouter Bob
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bob")
+        // Ajouter Bella
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bella")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
 
         // Démarrer la partie
         composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
         composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
 
         // Entrer un score invalide
@@ -128,16 +128,16 @@ class EditScoreTest {
         composeTestRule.onNodeWithTag("PresidentButton").performClick()
         composeTestRule.onNodeWithTag("SetGameScreen_Président").assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alice")
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alicia")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
 
-        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bob")
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bella")
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
 
         composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
         composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
 
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("20")
@@ -149,8 +149,8 @@ class EditScoreTest {
                 ?.joinToString("") == "Score actuel : 20"
         }
 
-        composeTestRule.onNodeWithTag("PlayerChip_Bob").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("PlayerChip_Bob").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Bella").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("PlayerChip_Bella").performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("-15")
         composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
