@@ -115,8 +115,6 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
                 onDismiss = { showModal = false },
                 onUpdateScore = { newScore ->
                     viewModel.updateScore(selectedPlayer!!.id, newScore)
-                    showModal = false
-                    selectedPlayer = null
                 }
             )
         }

@@ -70,7 +70,7 @@
   - **ÉTANT DONNÉ** que j'ai ajouté des joueurs, **LORSQUE** j'atteins le nombre minimum de joueurs requis, **ALORS** le bouton JOUER devient activé  
   - **ÉTANT DONNÉ** que j'ai configuré la partie, **LORSQUE** je clique sur JOUER, **ALORS** la partie démarre et je suis redirigé vers l'écran de jeu
 
-### US006 - Édition des Scores
+### US005 - Édition des Scores
 **En tant qu'** utilisateur,  
 **Je veux** mettre à jour les scores,  
 **Afin de** pouvoir les gérer.  
@@ -80,17 +80,7 @@
   - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je mets à jour le score d'un joueur avec un score négatif, **ALORS** le score du joueur est mis à jour dans la liste des joueurs..  
   - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j'essaie de mettre à jour le score d'un joueur qui n'existe pas, **ALORS** je reçois un message d'erreur m'informant que le joueur n'existe pas. 
 
-### US007 - Gestion des Scores pendant une Partie
-**En tant qu'** utilisateur,  
-**Je veux** mettre à jour les scores des joueurs pendant une partie,  
-**Afin de** pouvoir suivre précisément la progression.  
-
-**Critères d'acceptation :**  
-  - **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j'accède à l'éditeur de scores, **ALORS** les scores de tous les joueurs sont modifiables  
-  - **ÉTANT DONNÉ** que je modifie un score, **LORSQUE** j'enregistre les modifications, **ALORS** l'interface utilisateur se met à jour instantanément  
-  - **ÉTANT DONNÉ** que j'entre un score invalide, **LORSQUE** j'essaie de l'enregistrer, **ALORS** je reçois un retour de validation immédiat  
-
-### US008 - Mise à jour des scores
+### US006 -  Mise à jour des scores
 **En tant qu'** utilisateur,  
 **Je veux** voir immédiatement les scores mis à jour,  
 **Afin de** suivre en temps réel l'évolution du jeu.

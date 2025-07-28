@@ -1,5 +1,7 @@
 package com.example.gamemixandroid
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertIsDisplayed
@@ -64,9 +66,12 @@ class EditScoreTest {
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("10")
         composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
-        composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertTextEquals("Score actuel : 10")
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onNodeWithTag("CurrentScoreText")
+                .fetchSemanticsNode()
+                .config.getOrNull(SemanticsProperties.Text)
+                ?.joinToString("") == "Score actuel : 10"
+        }
 
 
 
@@ -108,5 +113,55 @@ class EditScoreTest {
 
         // Vérifier le message d'erreur
         composeTestRule.onNodeWithText("Veuillez entrer un score valide.").assertIsDisplayed()
+    }
+
+// **ÉTANT DONNÉ** une partie en cours avec des joueurs,
+// **LORSQUE** je mets à jour le score d'un joueur,
+// **ALORS** le nouveau score est affiché immédiatement dans l'interface.
+    @Test
+    fun scoreUpdateReflectsImmediately() {
+        composeTestRule.onNodeWithTag("HomeScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PlayButton").performClick()
+        composeTestRule.onNodeWithTag("GameListScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PresidentButton").performClick()
+        composeTestRule.onNodeWithTag("SetGameScreen_Président").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alice")
+        composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
+
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bob")
+        composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
+
+        composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
+        composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
+        composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("20")
+        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onNodeWithTag("CurrentScoreText")
+                .fetchSemanticsNode()
+                .config.getOrNull(SemanticsProperties.Text)
+                ?.joinToString("") == "Score actuel : 20"
+        }
+
+        composeTestRule.onNodeWithTag("PlayerChip_Bob").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("PlayerChip_Bob").performClick()
+        composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("-15")
+        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onNodeWithTag("CurrentScoreText")
+                .fetchSemanticsNode()
+                .config.getOrNull(SemanticsProperties.Text)
+                ?.joinToString("") == "Score actuel : -15"
+        }
+        composeTestRule.onNodeWithTag("CurrentScoreText").assertTextEquals("Score actuel : -15")
+
+
     }
 }
