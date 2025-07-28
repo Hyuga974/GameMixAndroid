@@ -74,8 +74,39 @@ class EditScoreTest {
 
     }
 
-    // 3. Validation immédiate sur score invalide
+//**ÉTANT DONNÉ** que j'entre un score invalide,
+// **LORSQUE** j'essaie de l'enregistrer,
+// **ALORS** je reçois un retour de validation immédiat
     @Test
     fun invalidScoreShowsValidation() {
+        composeTestRule.onNodeWithTag("HomeScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PlayButton").performClick()
+        composeTestRule.onNodeWithTag("GameListScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PresidentButton").performClick()
+        composeTestRule.onNodeWithTag("SetGameScreen_Président").assertIsDisplayed()
+
+        // Ajouter Alice
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Alice")
+        composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
+
+        // Ajouter Bob
+        composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput("Bob")
+        composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
+
+        // Démarrer la partie
+        composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
+        composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("PlayerChip_Alice").performClick()
+        composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
+
+        // Entrer un score invalide
+        composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("invalid")
+        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+
+        // Vérifier le message d'erreur
+        composeTestRule.onNodeWithText("Veuillez entrer un score valide.").assertIsDisplayed()
     }
 }

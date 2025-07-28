@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,8 @@ import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.NoName
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.rememberCoroutineScope
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
@@ -50,6 +53,9 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
     var context = LocalContext.current
     var gameBegin by remember { mutableStateOf(false) }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
