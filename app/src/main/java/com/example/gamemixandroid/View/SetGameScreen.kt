@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavController
 import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.R
@@ -34,7 +35,6 @@ import com.example.gamemixandroid.ui.theme.*
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 import kotlinx.serialization.encodeToString
-import kotlin.toString
 
 
 @Composable
@@ -57,6 +57,7 @@ fun SetGameScreen(
             .fillMaxSize()
             .background(Background)
             .padding(vertical = 30.dp)
+            .testTag("SetGameScreen_" + gameName) // Unique tag for testing
     ) {
         LazyColumn(
             modifier = Modifier
@@ -119,7 +120,8 @@ fun SetGameScreen(
                             }
                             newPlayerName = TextFieldValue("")
                             keyboardController?.hide()
-                        }
+                        },
+                        modif = Modifier.testTag("AddPlayerInput")
                     )
                     //Spacer(modifier = Modifier.height(8.dp))
                     PlayerTable(players, onRemove = { viewModel.removePlayer(it) })
@@ -145,6 +147,7 @@ fun SetGameScreen(
             modif = Modifier
                 .align(Alignment.BottomCenter)
                 .imePadding() // Keeps button visible when keyboard opens
+                .testTag("PlayButton_SetGame")
         )
     }
 }

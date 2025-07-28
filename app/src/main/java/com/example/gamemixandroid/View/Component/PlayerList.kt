@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -129,7 +130,8 @@ fun PlayerRow(player: Player, removePlayer: (Player) -> Unit, hasButton: Boolean
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp, horizontal = 20.dp),
+            .padding(vertical = 10.dp, horizontal = 20.dp)
+            .testTag("PlayerRow_${player.name}"), // Unique test tag for each player row
         verticalAlignment = Alignment.CenterVertically
 
 

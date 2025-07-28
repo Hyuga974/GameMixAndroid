@@ -13,21 +13,18 @@ import androidx.compose.material.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ViewModel.SetGameViewModel
-import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.NoName
-import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 
 @Composable
@@ -37,8 +34,9 @@ fun AddPlayer (
     newPlayerName: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     onClick: @Composable () -> Unit,
+    modif: Modifier
 
-    ) {
+) {
     Row(
         modifier = Modifier.fillMaxWidth(0.8f),
         verticalAlignment = Alignment.CenterVertically
@@ -49,7 +47,9 @@ fun AddPlayer (
             onValueChange = onValueChange,
             placeholder = { Text("New player ...") },
             singleLine = true,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .testTag("TextField_AddPlayer"),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = NoName,
@@ -63,7 +63,9 @@ fun AddPlayer (
                 viewModel.addPlayer(newPlayerName.text, maxPlayers)
                 onValueChange(TextFieldValue())
             },
-            modifier = Modifier.size(50.dp),
+            modifier = Modifier
+                .size(50.dp)
+                .testTag("Button_AddPlayer"),
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(
                 Secondary,

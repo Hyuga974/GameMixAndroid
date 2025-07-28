@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.gamemixandroid.Model.Player
@@ -23,24 +24,30 @@ fun ScoreModal(
     var scoreInput by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
-        Surface(shape = MaterialTheme.shapes.medium, color = Background) {
+        Surface(shape = MaterialTheme.shapes.medium, color = Background, modifier = Modifier.testTag("ScoreModal")) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Joueur : ${player.name}", style = MaterialTheme.typography.titleLarge)
-                Text("Score actuel : ${player.score}")
+                Text("Joueur : ${player.name}",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.testTag("PlayerNameText"))
+                Text("Score actuel : ${player.score}",
+                    modifier = Modifier.testTag("CurrentScoreText"))
                 OutlinedTextField(
                     value = scoreInput,
                     onValueChange = { scoreInput = it },
-                    label = { Text("Nouveau score") }
+                    label = { Text("Nouveau score") },
+                    modifier = Modifier.testTag("ScoreInputField"),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                CustomButton(text = "Valider", onClick = {
+                CustomButton(
+                    text = "Valider",
+                    onClick = {
                     val newScore = scoreInput.toIntOrNull()
                     if (newScore != null) {
                         onUpdateScore(newScore)
                         scoreInput = ""
                         onDismiss()
-                    }
-                })
+                    }},
+                    modif = Modifier.testTag("UpdateScoreButton"))
             }
         }
     }

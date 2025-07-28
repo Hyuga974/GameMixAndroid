@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ui.theme.Secondary
@@ -46,11 +47,16 @@ fun DynamicPlayerTable(
                 ) {
                     PlayerChip(
                         name = players[0].name,
-                        modifier = Modifier.clickable { onPlayerClick(players[0]) }
+                        modifier = Modifier
+                            .clickable { onPlayerClick(players[0]) }
+                            .testTag("PlayerChip_${players[0].name}")
+
                     )
                     if (playerCount >= 2) PlayerChip(
                         name = players[1].name,
-                        modifier = Modifier.clickable { onPlayerClick(players[1]) }
+                        modifier = Modifier
+                            .clickable { onPlayerClick(players[1]) }
+                            .testTag("PlayerChip_${players[1].name}")
                     )
                 }
             }
@@ -62,11 +68,15 @@ fun DynamicPlayerTable(
                 ) {
                     PlayerChip(
                         name = players[2].name,
-                        modifier = Modifier.clickable { onPlayerClick(players[2]) }
+                        modifier = Modifier
+                            .clickable { onPlayerClick(players[2]) }
+                            .testTag("PlayerChip_${players[2].name}")
                     )
                     if (playerCount >= 4) PlayerChip(
                         name = players[3].name,
-                        modifier = Modifier.clickable { onPlayerClick(players[3]) }
+                        modifier = Modifier
+                            .clickable { onPlayerClick(players[3]) }
+                            .testTag("PlayerChip_${players[3].name}")
                     )
                 }
             }
@@ -74,7 +84,9 @@ fun DynamicPlayerTable(
             if (playerCount >= 5) {
                 PlayerChip(
                     name = players[4].name,
-                    modifier = Modifier.clickable { onPlayerClick(players[4]) }
+                    modifier = Modifier
+                        .clickable { onPlayerClick(players[4]) }
+                        .testTag("PlayerChip_${players[4].name}")
                 )
             }
 
@@ -86,8 +98,9 @@ fun DynamicPlayerTable(
                     players.drop(5).forEach { player ->
                         PlayerChip(
                             name = player.name,
-                            modifier = Modifier.clickable { onPlayerClick(player) }
-                        )
+                            modifier = Modifier
+                                .clickable { onPlayerClick(player) }
+                                .testTag("PlayerChip_${player.name}")                     )
                     }
                 }
             }

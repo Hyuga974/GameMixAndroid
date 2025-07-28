@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -100,6 +101,7 @@ fun HomeContent(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Background) // Set the background color
+            .testTag("HomeScreen")
     ) {
         Column(
             modifier = Modifier
@@ -140,6 +142,7 @@ fun HomeContent(navController: NavController) {
                 onClick = { navController.navigate("GameListScreen") },
                 height = 70,
                 fontSize = 24.sp,
+                modif = Modifier.testTag("PlayButton")
             )
 
         }

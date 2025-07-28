@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +55,8 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
-            .padding(16.dp),
+            .padding(16.dp)
+            .testTag("GameScreen"), // Unique tag for testing
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Top Section with Logo and Help Button

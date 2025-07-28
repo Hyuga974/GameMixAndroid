@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +31,8 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
-            .padding(16.dp),
+            .padding(16.dp)
+            .testTag("GameListScreen"),
         verticalArrangement = Arrangement.SpaceEvenly,// Set spacing and alignmenT
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -84,7 +86,8 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,
-                backgroundColor = NoName
+                backgroundColor = NoName,
+                modif = Modifier.testTag("BeloteButton")
             )
             CustomButton(
                 "Président",
@@ -93,7 +96,8 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,
-                backgroundColor = NoName
+                backgroundColor = NoName,
+                modif = Modifier.testTag("PresidentButton")
             )
             CustomButton(
                 "Connecter un GameMixer !",
