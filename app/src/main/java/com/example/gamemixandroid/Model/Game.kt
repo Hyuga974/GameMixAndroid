@@ -41,12 +41,13 @@ class Game(
 
     fun updateScore(id: UUID, newScore: Int): GameResult {
         val player = players.find { it.id == id } ?: return GameResult(false, "Le joueur n'existe pas.")
-        player.score += newScore
+        player.score = newScore
         return GameResult(true)
     }
 
-    fun resetScores(): GameResult {
+    fun resetGame(): GameResult {
         players.forEach { it.score = 0 }
+        state = GameStateEnum.CREATED
         return GameResult(true)
     }
 }

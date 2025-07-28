@@ -30,4 +30,9 @@ class GameViewModel : ViewModel() {
         val result = game.updateScore(id, score)
         if (result.isSuccess) _gameState.value = game
     }
+
+    fun resetGame() {
+        game.resetGame()
+        _gameState.value = game
+    }
 }

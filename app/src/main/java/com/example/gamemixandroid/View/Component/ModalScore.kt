@@ -15,17 +15,15 @@ import com.example.gamemixandroid.ui.theme.Background
 import kotlinx.coroutines.delay
 
 @Composable
-fun ScoreModal(
+fun ModalScore(
     player: Player,
     onDismiss: () -> Unit,
     onUpdateScore: (Int) -> Unit,
 ) {
     var scoreInput by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    var displayedScore by remember { mutableStateOf(player.score) }
     var shouldClose by remember { mutableStateOf(false) }
 
-    // Lance le délai de fermeture après validation
     LaunchedEffect(shouldClose) {
         if (shouldClose) {
             delay(1000)
@@ -46,7 +44,7 @@ fun ScoreModal(
                     modifier = Modifier.testTag("PlayerNameText")
                 )
                 Text(
-                    "Score actuel : $displayedScore",
+                    "Score actuel : ${player.score?:0}",
                     modifier = Modifier.testTag("CurrentScoreText")
                 )
                 if (errorMessage != null) {
@@ -72,7 +70,7 @@ fun ScoreModal(
                     onClick = {
                         val newScore = scoreInput.toIntOrNull()
                         if (newScore != null) {
-                            displayedScore = newScore + player.score
+                            player.score += newScore
                             onUpdateScore(newScore)
                             scoreInput = ""
                             errorMessage = null

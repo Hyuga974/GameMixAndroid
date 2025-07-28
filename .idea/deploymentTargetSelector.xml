@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="testPlayerClickOpensScoreModal()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="GameScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2025-07-24T10:52:45.241965700Z">
@@ -50,6 +47,9 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="SetGameTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="cancelResetScores()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

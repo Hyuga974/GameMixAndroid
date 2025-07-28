@@ -14,34 +14,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gamemixandroid.Model.Player
-import com.example.gamemixandroid.PlayerScoreCache
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
-import com.example.gamemixandroid.View.Component.PlayerChip
 import com.example.gamemixandroid.View.Component.DynamicPlayerTable
-import com.example.gamemixandroid.View.Component.ScoreModal
+import com.example.gamemixandroid.View.Component.ModalCheck
+import com.example.gamemixandroid.View.Component.ModalScore
 import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
-import com.example.gamemixandroid.ui.theme.NoName
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.rememberCoroutineScope
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
@@ -51,11 +42,8 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
     print("Current Players: ${game.players}")
     var showModal by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
-    var context = LocalContext.current
     var gameBegin by remember { mutableStateOf(false) }
-
-    val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
+    var showResetModal by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -110,7 +98,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             )
         }
         if (showModal && selectedPlayer != null) {
-            ScoreModal(
+            ModalScore(
                 player = selectedPlayer!!,
                 onDismiss = { showModal = false },
                 onUpdateScore = { newScore ->
@@ -126,14 +114,19 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             text = if (!gameBegin) "Commencer" else "Recommencer",
             textColor = Color.White,
             onClick = {
-                viewModel.startGame()
-                gameBegin = true
-                showModal = false
-                selectedPlayer = null},
+                if (gameBegin){
+                    showResetModal = true
+                } else {
+                    viewModel.startGame()
+                    gameBegin = true
+                    showModal = false
+                    selectedPlayer = null
+                } },
             height = 60,
             width = 0.8f,
             fontSize = 20.sp,
-            backgroundColor = Primary
+            backgroundColor = Primary,
+            modif = Modifier.testTag("StartButton")
         )
         Spacer(modifier = Modifier.height(8.dp))
         CustomButton(
@@ -152,6 +145,19 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             height = 60,
             width=0.8f,
             fontSize = 20.sp,
-            backgroundColor = Primary)
+            backgroundColor = Primary
+        )
+    }
+    if (showResetModal) {
+        ModalCheck(
+            message = "Voulez-vous vraiment réinitialiser la partie ?",
+            tagname = "ResetScoreDialog",
+            onConfirm = {
+                viewModel.resetGame()
+                gameBegin = false
+                showResetModal = false
+            },
+            onCancel = { showResetModal = false }
+        )
     }
 }
