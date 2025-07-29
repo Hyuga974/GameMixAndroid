@@ -44,7 +44,6 @@ fun CustomButton(
             text = text,
             fontSize = fontSize,
             color = textColor,
-            modifier = Modifier.then(modif)
         )
     }
 }

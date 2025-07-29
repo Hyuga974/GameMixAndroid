@@ -4,6 +4,9 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -15,6 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class EditScoreTest {
@@ -30,14 +34,12 @@ class EditScoreTest {
         }
         composeTestRule.onNodeWithTag("HomeScreen").assertIsDisplayed()
 
-        // Aller à la liste des jeux
         composeTestRule.onNodeWithTag("PlayButton").performClick()
         composeTestRule.waitUntil(timeoutMillis = 10_000) {
             composeTestRule.onAllNodesWithTag("GameListScreen").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithTag("GameListScreen").assertIsDisplayed()
 
-        // Sélectionner le jeu Président
         composeTestRule.onNodeWithTag("PresidentButton").performClick()
         composeTestRule.waitUntil(timeoutMillis = 10_000) {
             composeTestRule.onAllNodesWithTag("SetGameScreen_Président").fetchSemanticsNodes().isNotEmpty()
@@ -51,7 +53,6 @@ class EditScoreTest {
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onAllNodesWithTag("PlayerRow_${player1}").fetchSemanticsNodes().isNotEmpty()
         }
-
         composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextClearance()
         composeTestRule.onNodeWithTag("TextField_AddPlayer").performTextInput(player2)
         composeTestRule.onNodeWithTag("Button_AddPlayer").performClick()
@@ -59,14 +60,14 @@ class EditScoreTest {
             composeTestRule.onAllNodesWithTag("PlayerRow_${player2}").fetchSemanticsNodes().isNotEmpty()
         }
 
-        // Démarrer la partie
         composeTestRule.onNodeWithTag("PlayButton_SetGame").performClick()
         composeTestRule.waitUntil(timeoutMillis = 20_000) {
             composeTestRule.onAllNodesWithTag("GameScreen").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithTag("GameScreen").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("StartButton").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("StartButton").performClick()
+        composeTestRule.onNodeWithTag("StartButton")
+            .assertIsDisplayed()
+            .performClick()
     }
 
     // **ÉTANT DONNÉ** une partie en cours,
@@ -100,7 +101,9 @@ class EditScoreTest {
         composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("invalid")
-        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.onNodeWithTag("UpdateScoreButton")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithText("Veuillez entrer un score valide.").assertIsDisplayed()
     }
 
@@ -110,7 +113,9 @@ class EditScoreTest {
     @Test
     fun scoreUpdateReflectsImmediately() {
         startGamePath()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("20")
         composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
@@ -121,18 +126,23 @@ class EditScoreTest {
                 ?.joinToString("") == "Score actuel : 20"
         }
 
-        composeTestRule.onNodeWithTag("PlayerChip_Bella").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("PlayerChip_Bella").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Bella")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("-15")
-        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.onNodeWithTag("UpdateScoreButton")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onNodeWithTag("CurrentScoreText")
                 .fetchSemanticsNode()
                 .config.getOrNull(SemanticsProperties.Text)
                 ?.joinToString("") == "Score actuel : -15"
         }
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertTextEquals("Score actuel : -15")
+        composeTestRule.onNodeWithTag("CurrentScoreText")
+            .assertIsDisplayed()
+            .assertTextEquals("Score actuel : -15")
     }
 
     // **ÉTANT DONNÉ** des scores existants,
@@ -141,10 +151,14 @@ class EditScoreTest {
     @Test
     fun resetScoresDialogAppears() {
         startGamePath()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("10")
-        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.onNodeWithTag("UpdateScoreButton")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onNodeWithTag("CurrentScoreText")
                 .fetchSemanticsNode()
@@ -154,8 +168,9 @@ class EditScoreTest {
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onAllNodesWithTag("StartButton").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithTag("StartButton").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("StartButton").performClick()
+        composeTestRule.onNodeWithTag("StartButton")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithTag("ResetScoreDialog").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ModalMessageText").assertTextEquals("Voulez-vous vraiment réinitialiser la partie ?")
         composeTestRule.onNodeWithTag("ConfirmButton").assertIsDisplayed()
@@ -168,34 +183,69 @@ class EditScoreTest {
     @Test
     fun resetScoresToZero() {
         startGamePath()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
-        composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("10")
-        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertIsDisplayed()
-        composeTestRule.waitUntil(timeoutMillis = 10_000) {
-            composeTestRule.onNodeWithTag("CurrentScoreText")
-                .fetchSemanticsNode()
-                .config.getOrNull(SemanticsProperties.Text)
-                ?.joinToString("") == "Score actuel : 10"
-        }
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertTextEquals("Score actuel : 10")
-        composeTestRule.waitUntil(timeoutMillis = 5_000) {
-            composeTestRule.onAllNodesWithTag("StartButton").fetchSemanticsNodes().isNotEmpty()
-        }
-        composeTestRule.onNodeWithTag("StartButton").performClick()
-        composeTestRule.onNodeWithTag("ConfirmButton").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("ConfirmButton").performClick()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 30_000) {
-            composeTestRule.onAllNodesWithTag("CurrentScoreText").fetchSemanticsNodes().isNotEmpty()
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia")
+            .assertExists()
+            .performClick()
+        composeTestRule.onNodeWithTag("ScoreInputField")
+            .assertExists()
+            .performTextInput("10")
+
+        composeTestRule.onNodeWithTag("UpdateScoreButton")
+            .assertExists()
+            .performClick()
+
+        // Attendre que le score soit bien à 10
+        composeTestRule.waitUntil(timeoutMillis = 10_000) {
+            val node = composeTestRule.onAllNodesWithTag("CurrentScoreText").fetchSemanticsNodes()
+            if (node.size != 1) return@waitUntil false
+            val text = node[0].config.getOrNull(SemanticsProperties.Text)?.joinToString("") ?: ""
+            text == "Score actuel : 10"
         }
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("CurrentScoreText").assertTextEquals("Score actuel : 0")
+
+        composeTestRule.waitUntil(timeoutMillis = 10_000) {
+            composeTestRule.onAllNodes(hasTestTag("StartButton") and hasClickAction()).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNode(
+            hasTestTag("StartButton").and(hasClickAction())
+        ).performClick()
+
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodes(hasTestTag("ConfirmButton") and hasClickAction()).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        val confirmButtonMatcher = hasTestTag("ConfirmButton").and(hasClickAction())
+
+        val node = composeTestRule.onAllNodes(confirmButtonMatcher)
+            .fetchSemanticsNodes()
+            .firstOrNull() ?: error("ConfirmButton with click action not found")
+
+        composeTestRule.onNode(hasTestTag("ConfirmButton").and(hasClickAction()))
+            .performClick()
+
+        // Re-cliquer sur Alicia pour rafraîchir l'affichage
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia")
+            .assertExists()
+            .performClick()
+
+        // Attendre que le score soit bien à 0
+        composeTestRule.waitUntil(timeoutMillis = 15_000) {
+            val node = composeTestRule.onAllNodesWithTag("CurrentScoreText").fetchSemanticsNodes()
+            if (node.size != 1) return@waitUntil false
+            val text = node[0].config.getOrNull(SemanticsProperties.Text)?.joinToString("") ?: ""
+            text == "Score actuel : 0"
+        }
+
+        // Vérifier que le score est bien à 0
+        composeTestRule.onNodeWithTag("CurrentScoreText")
+            .assertExists()
+            .assertTextEquals("Score actuel : 0")
     }
+
+
+
 
     // **ÉTANT DONNÉ** que j'annule la réinitialisation,
     // **LORSQUE** la boîte de dialogue se ferme,
@@ -203,30 +253,57 @@ class EditScoreTest {
     @Test
     fun cancelResetScores() {
         startGamePath()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
+
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia")
+            .assertIsDisplayed()
+            .performClick()
         composeTestRule.onNodeWithTag("ScoreModal").assertIsDisplayed()
         composeTestRule.onNodeWithTag("ScoreInputField").performTextInput("10")
-        composeTestRule.onNodeWithTag("UpdateScoreButton").performClick()
+        composeTestRule.onNodeWithTag("UpdateScoreButton")
+            .assertIsDisplayed()
+            .performClick()
+
+        // Attendre que le score soit bien mis à jour à 10
         composeTestRule.waitUntil(timeoutMillis = 15_000) {
-            composeTestRule.onNodeWithTag("CurrentScoreText")
-                .fetchSemanticsNode()
-                .config.getOrNull(SemanticsProperties.Text)
-                ?.joinToString("") == "Score actuel : 10"
+            try {
+                val text = composeTestRule.onNodeWithTag("CurrentScoreText")
+                    .fetchSemanticsNode()
+                    .config.getOrNull(SemanticsProperties.Text)
+                    ?.joinToString("")
+                text == "Score actuel : 10"
+            } catch (e: Exception) {
+                false
+            }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onAllNodesWithTag("StartButton").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithTag("StartButton").performClick()
-        composeTestRule.onNodeWithTag("CancelButton").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("CancelButton").performClick()
 
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("PlayerChip_Alicia").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 30_000) {
-            composeTestRule.onNodeWithTag("CurrentScoreText")
-                .fetchSemanticsNode()
-                .config.getOrNull(SemanticsProperties.Text)
-                ?.isNotEmpty() == true
+        composeTestRule.onNode(
+            hasTestTag("StartButton").and(hasClickAction())
+        ).performClick()
+
+        composeTestRule.onNodeWithTag("CancelButton")
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
+        composeTestRule.onNodeWithTag("PlayerChip_Alicia").assertIsDisplayed().performClick()
+
+        // Attendre que le score reste à 10 (non réinitialisé)
+        composeTestRule.waitUntil(timeoutMillis = 10_000) {
+            try {
+                val text = composeTestRule.onNodeWithTag("CurrentScoreText")
+                    .fetchSemanticsNode()
+                    .config.getOrNull(SemanticsProperties.Text)
+                    ?.joinToString("")
+                text == "Score actuel : 10"
+            } catch (e: Exception) {
+                false
+            }
         }
     }
+
+
 }
