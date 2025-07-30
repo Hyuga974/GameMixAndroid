@@ -1,14 +1,14 @@
 package com.example.gamemixandroid
 
 import com.example.gamemixandroid.Model.Game
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class AddPlayerTest {
     private lateinit var game: Game
 
-    @Before
+    @BeforeEach
     fun setUp() {
         game = Game()
     }

@@ -1,14 +1,14 @@
 package com.example.gamemixandroid
 
 import com.example.gamemixandroid.Model.Game
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class CreateGameTest {
 
     private lateinit var game: Game
 
-    @Before
+    @BeforeEach
     fun setUp() {
         game = Game(minPlayers = 2, maxPlayers = 4)
     }
