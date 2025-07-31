@@ -47,7 +47,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=Hyuga974_GameMixAndroid
-            -Dsonar.organization=Hyuga
+            -Dsonar.organization=hyuga
             -Dsonar.sources=app/src/main
             -Dsonar.tests=app/src/test,app/src/androidTest
             -Dsonar.java.binaries=app/build
