@@ -11,9 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      JAVA_HOME: ${{ steps.setup-java.outputs.path }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
