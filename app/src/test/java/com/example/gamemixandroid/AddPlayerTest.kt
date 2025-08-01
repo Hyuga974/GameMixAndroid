@@ -18,7 +18,7 @@ class AddPlayerTest {
 // **ALORS** je suis ajouté à la partie et mon pseudonyme est visible dans la liste des joueurs.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme valide`() {
+    fun `adding a player with a valid nickname`() {
         val result = game.addPlayer("Alicia")
         assertTrue(result.isSuccess)
         assertTrue(game.players.any { it.name == "Alicia" })
@@ -29,7 +29,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme est déjà utilisé.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme déjà pris`() {
+    fun `adding  a player with a valid nickname`() {
         game.addPlayer("Alicia")
         val result = game.addPlayer("Alicia")
         assertTrue(!result.isSuccess)
@@ -41,7 +41,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme est obligatoire.
 
     @Test
-    fun `ajout d'un joueur sans pseudonyme`() {
+    fun `adding a player without a nickname`() {
         val result = game.addPlayer("")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme est obligatoire.")
@@ -52,7 +52,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme est trop long.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme trop long`() {
+    fun `adding a player with a nickname that was too long`() {
         val result = game.addPlayer("A".repeat(21))
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme est trop long.")
@@ -63,7 +63,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme est trop court.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme trop court`() {
+    fun `adding a player with a nickname that was too short`() {
         val result = game.addPlayer("A")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme est trop court.")
@@ -74,7 +74,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme ne doit pas contenir de caractères spéciaux.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme contenant des caractères spéciaux`() {
+    fun `adding a player with a nickname containing special characters`() {
         val result = game.addPlayer("Alicia@123")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme ne doit pas contenir de caractères spéciaux.")
@@ -85,7 +85,7 @@ class AddPlayerTest {
 // **ALORS** je reçois un message d'erreur m'informant que le pseudonyme ne doit pas contenir d'espaces.
 
     @Test
-    fun `ajout d'un joueur avec un pseudonyme contenant des espaces`() {
+    fun `adding a player with a nickname containing spaces`() {
         val result = game.addPlayer("Alicia Smith")
         assertTrue(!result.isSuccess)
         assertTrue(result.message == "Le pseudonyme ne doit pas contenir d'espaces.")
