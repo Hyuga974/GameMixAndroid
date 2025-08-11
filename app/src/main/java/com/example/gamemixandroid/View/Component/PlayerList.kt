@@ -37,6 +37,7 @@ fun PlayerTable(players: List<Player>, onRemove: (Player) -> Unit) {
             .fillMaxHeight(0.5f)
             .semantics { contentDescription = "Liste des joueurs" }
             .background(Color.Transparent)
+            .semantics { contentDescription = "Liste des joueurs inscrits pour la partie" }
     ) {
         Column(
             modifier = Modifier

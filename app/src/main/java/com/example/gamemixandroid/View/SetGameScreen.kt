@@ -1,12 +1,9 @@
 package com.example.gamemixandroid.View
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
+import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavController
@@ -29,13 +27,15 @@ import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.AddPlayer
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.View.Component.PlayerTable
-import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ViewModel.SetGameViewModel
 import com.example.gamemixandroid.ui.theme.*
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 import kotlinx.serialization.encodeToString
 
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 
 @Composable
 fun SetGameScreen(
@@ -47,9 +47,7 @@ fun SetGameScreen(
 ) {
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
     val players = viewModel.players
-    val keyboardController = LocalSoftwareKeyboardController.current // Keyboard controller
-    val gameViewModel: GameViewModel = viewModel()
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
 
     Box(
@@ -57,14 +55,15 @@ fun SetGameScreen(
             .fillMaxSize()
             .background(Background)
             .padding(vertical = 30.dp)
-            .testTag("SetGameScreen_" + gameName) // Unique tag for testing
+            .testTag("SetGameScreen_$gameName")
+            .semantics { contentDescription = "Écran de préparation d'une partie de $gameName" }
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 60.dp)
-                .windowInsetsPadding(WindowInsets.ime), // Moves UI up when keyboard appears
+                .windowInsetsPadding(WindowInsets.ime),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
@@ -73,17 +72,19 @@ fun SetGameScreen(
                     verticalArrangement = Arrangement.spacedBy(30.dp),
                     modifier = Modifier.padding(top = 20.dp)
                 ) {
-                    // Logo Section
+                    // Logo
                     Image(
                         painter = painterResource(id = R.drawable.gamemixlogo_transparent),
-                        contentDescription = "GameMix Logo",
+                        contentDescription = "Logo de l'application GameMix",
                         modifier = Modifier.size(150.dp)
                     )
 
-                    // Title Section
+                    // Titres
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .semantics { heading() }
                     ) {
                         Text(
                             text = "Bienvenue dans une partie de",
@@ -104,7 +105,7 @@ fun SetGameScreen(
                         )
                     }
 
-                    // Input Section
+                    // Saisie joueur
                     AddPlayer(
                         viewModel = viewModel,
                         maxPlayers = maxPlayers,
@@ -121,16 +122,21 @@ fun SetGameScreen(
                             newPlayerName = TextFieldValue("")
                             keyboardController?.hide()
                         },
-                        modif = Modifier.testTag("AddPlayerInput")
+                        modif = Modifier
+                            .testTag("AddPlayerInput")
+                            .semantics { contentDescription = "Champ pour entrer le nom d'un joueur" }
                     )
-                    //Spacer(modifier = Modifier.height(8.dp))
-                    PlayerTable(players, onRemove = { viewModel.removePlayer(it) })
+
+                    // Liste joueurs
+                    PlayerTable(
+                        players,
+                        onRemove = { viewModel.removePlayer(it) }
+                    )
                 }
             }
         }
 
-        Log.d("Navigation", gameName+"ScreenGame")
-        // Play Button Section
+        // Bouton Jouer
         CustomButton(
             onClick = {
                 val playersJson = Json.encodeToString(players.toList())
@@ -146,8 +152,9 @@ fun SetGameScreen(
             on = players.size >= minPlayers,
             modif = Modifier
                 .align(Alignment.BottomCenter)
-                .imePadding() // Keeps button visible when keyboard opens
+                .imePadding()
                 .testTag("PlayButton_SetGame")
+                .semantics { contentDescription = "Lancer la partie de $gameName" }
         )
     }
 }

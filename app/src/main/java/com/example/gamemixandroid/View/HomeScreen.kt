@@ -27,13 +27,19 @@ import com.example.ui.home.GameListScreen
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 
+
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     val navController = rememberNavController()
 
-    // Navigation Host setup
-    NavHost(navController = navController, startDestination = "homeScreen") {
-
+    NavHost(
+        navController = navController,
+        startDestination = "homeScreen",
+        modifier = Modifier.semantics { contentDescription = "Navigation principale de GameMix" }
+    ) {
         composable("homeScreen") {
             HomeContent(navController)
         }
@@ -49,9 +55,9 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 gameName = "Belote",
                 navController = navController,
                 viewModel = viewModel()
-
             )
         }
+
         composable("PresidentScreenGame") {
             SetGameScreen(
                 maxPlayers = 7,
@@ -64,33 +70,24 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 
         composable(
             route = "présidentGame/{playersJson}",
-            arguments = listOf(navArgument("playersJson") {
-                type = NavType.StringType
-            })
+            arguments = listOf(navArgument("playersJson") { type = NavType.StringType })
         ) { backStackEntry ->
-            // print the playersJson argument
             val json = backStackEntry.arguments?.getString("playersJson")
                 ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
-            println("playersJson reçu : $json")
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
-            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
+            GameScreen(players, gameViewModel, navController)
         }
 
-        // 🔽 Route dynamique avec paramètre JSON encodé pour la liste des joueurs
         composable(
             route = "beloteGame/{playersJson}",
-            arguments = listOf(navArgument("playersJson") {
-                type = NavType.StringType
-            })
+            arguments = listOf(navArgument("playersJson") { type = NavType.StringType })
         ) { backStackEntry ->
-            // print the playersJson argument
             val json = backStackEntry.arguments?.getString("playersJson")
                 ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
-            println("playersJson reçu : $json")
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
-            GameScreen(playerList = players, viewModel = gameViewModel, navController = navController)
+            GameScreen(players, gameViewModel, navController)
         }
     }
 }
@@ -100,8 +97,9 @@ fun HomeContent(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Background) // Set the background color
+            .background(Background)
             .testTag("HomeScreen")
+            .semantics { contentDescription = "Écran d'accueil GameMix" }
     ) {
         Column(
             modifier = Modifier
@@ -109,24 +107,26 @@ fun HomeContent(navController: NavController) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo Section
+            // Logo
             Image(
-                painter = painterResource(id = R.drawable.gamemixlogo_transparent), // Replace with your logo resource ID
-                contentDescription = "GameMix Logo",
+                painter = painterResource(id = R.drawable.gamemixlogo_transparent),
+                contentDescription = "Logo de l'application GameMix",
                 modifier = Modifier
                     .height(500.dp)
                     .fillMaxWidth()
             )
 
-            // Button Section
+            // Bouton Jouer
             CustomButton(
-                "JOUER !",
+                text = "JOUER !",
                 onClick = { navController.navigate("GameListScreen") },
                 height = 70,
                 fontSize = 24.sp,
-                modif = Modifier.testTag("PlayButton")
+                modif = Modifier
+                    .testTag("PlayButton")
+                    .semantics { contentDescription = "Bouton jouer - accéder à la liste des jeux" }
             )
-
         }
     }
 }
+
