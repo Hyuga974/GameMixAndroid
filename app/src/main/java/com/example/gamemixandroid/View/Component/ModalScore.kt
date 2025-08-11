@@ -13,6 +13,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.ui.theme.Background
 import kotlinx.coroutines.delay
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 @Composable
 fun ModalScore(
@@ -35,24 +37,32 @@ fun ModalScore(
         Surface(
             shape = MaterialTheme.shapes.medium,
             color = Background,
-            modifier = Modifier.testTag("ScoreModal")
+            modifier = Modifier
+                .testTag("ScoreModal")
+                .semantics { contentDescription = "Fenêtre de modification du score" }
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     "Joueur : ${player.name}",
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.testTag("PlayerNameText")
+                    modifier = Modifier
+                        .testTag("PlayerNameText")
+                        .semantics { contentDescription = "Nom du joueur : ${player.name}" }
                 )
                 Text(
-                    "Score actuel : ${player.score?:0}",
-                    modifier = Modifier.testTag("CurrentScoreText")
+                    "Score actuel : ${player.score}",
+                    modifier = Modifier
+                        .testTag("CurrentScoreText")
+                        .semantics { contentDescription = "Score actuel : ${player.score}" }
                 )
                 if (errorMessage != null) {
                     Text(
                         text = errorMessage!!,
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                            .semantics { contentDescription = "Erreur : $errorMessage" }
                     )
                 }
                 OutlinedTextField(
@@ -62,7 +72,10 @@ fun ModalScore(
                         errorMessage = null
                     },
                     label = { Text("Nouveau score") },
-                    modifier = Modifier.testTag("ScoreInputField"),
+                    modifier = Modifier
+                        .testTag("ScoreInputField")
+                        .semantics { contentDescription = "Champ de saisie pour entrer le nouveau score" },
+                    singleLine = true
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 CustomButton(
@@ -79,7 +92,9 @@ fun ModalScore(
                             errorMessage = "Veuillez entrer un score valide."
                         }
                     },
-                    modif = Modifier.testTag("UpdateScoreButton")
+                    modif = Modifier
+                        .testTag("UpdateScoreButton")
+                        .semantics { contentDescription = "Bouton : valider le nouveau score" }
                 )
             }
         }

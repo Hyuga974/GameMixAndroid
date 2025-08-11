@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.example.gamemixandroid.ui.theme.Secondary
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.foundation.layout.sizeIn
 
 @Composable
 fun CustomButton(
@@ -25,14 +28,17 @@ fun CustomButton(
     width : Float = 0.0f,
     cornerRadius: Int = 20,
     modif : Modifier = Modifier,
-    on : Boolean = true
+    on : Boolean = true,
+    accessibilityLabel: String? = null
 ) {
     Button(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth(if (width == 0.0f) 1.0f else width)
             .height(height.dp)
-            .then(modif),
+            .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
+            .then(modif)
+            .semantics { contentDescription = accessibilityLabel ?: "Bouton : $text" },
         enabled = on,
         shape = RoundedCornerShape(cornerRadius.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor)
