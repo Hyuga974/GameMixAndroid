@@ -12,7 +12,7 @@ class SetGameViewModel : ViewModel() {
 
     // Function to add a player
     fun addPlayer(name: String, maxPlayers: Int) {
-        if (name.isNotBlank() && players.size < maxPlayers) {
+        if (players.size < maxPlayers  && isValidPseudo(name)) {
             players.add(Player(name = name))
         }
     }
@@ -20,5 +20,9 @@ class SetGameViewModel : ViewModel() {
     // Function to remove a player
     fun removePlayer(player: Player) {
         players.remove(player)
+    }
+    fun isValidPseudo(pseudo: String): Boolean {
+        val regex = Regex("^[a-zA-Z0-9_-]{3,15}$")
+        return regex.matches(pseudo)
     }
 }
