@@ -11,9 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 
 @Composable
@@ -29,7 +27,6 @@ fun CustomButton(
     modif : Modifier = Modifier,
     on : Boolean = true
 ) {
-
     Button(
         onClick = onClick,
         modifier = Modifier

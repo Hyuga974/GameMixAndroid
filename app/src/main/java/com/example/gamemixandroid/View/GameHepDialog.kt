@@ -11,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -19,8 +18,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
-import com.example.gamemixandroid.ViewModel.GameViewModel
 
 @Composable
 fun GameRulesDialog(
@@ -167,24 +164,3 @@ fun ButtonInfoItem(title: String, description: String) {
         }
     }
 }
-
-//// Utilisation dans votre écran
-//@Composable
-//fun GameScreen(viewModel: GameViewModel, navController: NavController) {
-//    var showHelpDialog = false
-//
-//    Button(
-//        onClick = { showHelpDialog = true },
-//        shape = CircleShape,
-//        colors = ButtonDefaults.buttonColors(Color.Gray)
-//    ) {
-//        Text("?")
-//    }
-//
-//    if (showHelpDialog) {
-//        GameRulesDialog(
-//            gameName = "Belote", // Récupérez le nom du jeu depuis votre ViewModel
-//            onDismiss = { showHelpDialog = false }
-//        )
-//    }
-//}

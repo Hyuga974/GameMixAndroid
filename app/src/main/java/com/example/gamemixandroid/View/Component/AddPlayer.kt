@@ -34,7 +34,6 @@ fun AddPlayer (
     newPlayerName: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     onClick: @Composable () -> Unit,
-    modif: Modifier
 
 ) {
     Row(

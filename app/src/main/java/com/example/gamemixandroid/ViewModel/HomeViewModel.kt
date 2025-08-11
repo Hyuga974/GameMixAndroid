@@ -1,4 +1,4 @@
-package com.example.ui.home
+package com.example.gamemixandroid.ViewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.model.Greeting

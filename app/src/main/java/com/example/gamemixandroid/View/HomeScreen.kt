@@ -21,9 +21,9 @@ import com.example.gamemixandroid.Model.Player
 import com.example.gamemixandroid.R
 import com.example.gamemixandroid.View.Component.CustomButton
 import com.example.gamemixandroid.ViewModel.GameViewModel
+import com.example.gamemixandroid.ViewModel.HomeViewModel
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.ui.home.GameListScreen
-import com.example.ui.home.HomeViewModel
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 
@@ -117,24 +117,6 @@ fun HomeContent(navController: NavController) {
                     .height(500.dp)
                     .fillMaxWidth()
             )
-
-            // Welcome Text Section
-            /*Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Bienvenue !",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Vous voici sur GAMEMIX !\nUne application qui va changer vos soirées entre amis !",
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center
-                )
-            }*/
 
             // Button Section
             CustomButton(
