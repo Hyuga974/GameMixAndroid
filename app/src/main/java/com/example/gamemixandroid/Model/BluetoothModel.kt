@@ -11,8 +11,6 @@ import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.ui.home.REQUEST_CODE_BLUETOOTH_PERMISSION
-
 class BluetoothModel {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
@@ -64,7 +62,7 @@ class BluetoothModel {
         }
     }
 
-    fun requestBluetoothPermission(activity : Activity) {
+    fun requestBluetoothPermission(activity : Activity, requestCodeBluetoothPermission: Int) {
         if(!isBluetoothEnabled()){
             Log.e("BluetoothPermission", "Bluetooth is not enabled. Please enable Bluetooth first.")
             return
@@ -81,6 +79,6 @@ class BluetoothModel {
             )
         }
         Log.d("BluetoothPermission", "Requesting permissions: ${permissions.joinToString(", ")}")
-        ActivityCompat.requestPermissions(activity, permissions, REQUEST_CODE_BLUETOOTH_PERMISSION)
+        ActivityCompat.requestPermissions(activity, permissions, requestCodeBluetoothPermission)
     }
 }

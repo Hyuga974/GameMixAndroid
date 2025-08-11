@@ -23,8 +23,8 @@ import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.NoName
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Tertiary
-
-val REQUEST_CODE_BLUETOOTH_PERMISSION = 1001
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 
 @Composable
 fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavController) {
@@ -37,18 +37,20 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
             .fillMaxSize()
             .background(Background)
             .padding(16.dp)
-            .testTag("GameListScreen"),
-        verticalArrangement = Arrangement.SpaceEvenly,// Set spacing and alignmenT
+            .testTag("GameListScreen")
+            .semantics { contentDescription = "Écran d'accueil GameMix" },
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Logo Section
         Image(
             painter = painterResource(id = R.drawable.gamemixlogo_transparent),
-            contentDescription = "GameMix Logo",
+            contentDescription = "Logo de l'application GameMix",
             modifier = Modifier
                 .height(350.dp)
                 .width(350.dp)
         )
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -61,7 +63,9 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                 width=0.8f,
                 fontSize = 20.sp,
                 backgroundColor = NoName,
-                modif = Modifier.testTag("BeloteButton")
+                modif = Modifier
+                    .testTag("BeloteButton")
+                    .semantics { contentDescription = "Lancer une partie de Belote" }
             )
             CustomButton(
                 "Président",
@@ -71,14 +75,15 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                 width=0.8f,
                 fontSize = 20.sp,
                 backgroundColor = NoName,
-                modif = Modifier.testTag("PresidentButton")
+                modif = Modifier
+                    .testTag("PresidentButton")
+                    .semantics { contentDescription = "Lancer une partie de Président" }
             )
             CustomButton(
                 "Connecter un GameMixer !",
                 onClick = {
                     if (activity != null && !bluetoothViewModel.hasBluetoothPermission(context)) {
-
-                        Log.d("BluetoothPermission", "Permissions demandé")
+                        Log.d("BluetoothPermission", "Permissions demandées")
                         bluetoothViewModel.requestBluetoothPermission(activity)
                     } else {
                         Log.d("BluetoothPermission", "Permissions déjà accordées")
@@ -87,9 +92,10 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,
-                backgroundColor = Tertiary
+                backgroundColor = Tertiary,
+                modif = Modifier
+                    .semantics { contentDescription = "Connecter un appareil GameMixer via Bluetooth" }
             )
         }
     }
 }
-

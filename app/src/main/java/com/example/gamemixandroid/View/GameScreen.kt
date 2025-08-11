@@ -33,13 +33,14 @@ import com.example.gamemixandroid.ViewModel.GameViewModel
 import com.example.gamemixandroid.ui.theme.Background
 import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
     val game by viewModel.gameState.collectAsState()
-    print("Current Players: ${game.players}")
     game.players = playerList as MutableList<Player>
-    print("Current Players: ${game.players}")
+
     var showModal by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf<Player?>(null) }
     var gameBegin by remember { mutableStateOf(false) }
@@ -50,10 +51,11 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             .fillMaxSize()
             .background(Background)
             .padding(16.dp)
-            .testTag("GameScreen"), // Unique tag for testing
+            .testTag("GameScreen")
+            .semantics { contentDescription = "Écran de jeu GameMix" },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Top Section with Logo and Help Button
+        // Logo + bouton aide
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -61,34 +63,31 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
         ) {
             Image(
                 painter = painterResource(id = R.drawable.gamemixlogo_transparent),
-                contentDescription = "GameMix Logo",
+                contentDescription = "Logo de l'application GameMix",
                 modifier = Modifier.size(50.dp)
             )
             Button(
                 onClick = { /* TODO: Help Action */ },
                 shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(Color.Gray)
+                colors = ButtonDefaults.buttonColors(Color.Gray),
+                modifier = Modifier.semantics { contentDescription = "Bouton d'aide - afficher les règles du jeu" }
             ) {
-                Text("?")
+                Text("?", fontSize = 18.sp)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Game Table Section
+        // Table de jeu
         Box(
             modifier = Modifier
                 .width(250.dp)
                 .height(500.dp)
                 .background(Color.DarkGray, shape = MaterialTheme.shapes.large)
-                .border(
-                    width = 6.dp,
-                    color = Secondary,
-                    shape = MaterialTheme.shapes.large
-                ),
-            contentAlignment = Alignment.Center,
+                .border(6.dp, Secondary, shape = MaterialTheme.shapes.large)
+                .semantics { contentDescription = "Table de jeu avec liste des joueurs" },
+            contentAlignment = Alignment.Center
         ) {
-            // Table dynamique des joueurs
             DynamicPlayerTable(
                 game.players,
                 onPlayerClick = { player ->
@@ -97,6 +96,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
                 }
             )
         }
+
         if (showModal && selectedPlayer != null) {
             ModalScore(
                 player = selectedPlayer!!,
@@ -108,27 +108,34 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        // Action Buttons
 
+        // Boutons d’action
         CustomButton(
             text = if (!gameBegin) "Commencer" else "Recommencer",
             textColor = Color.White,
             onClick = {
-                if (gameBegin){
+                if (gameBegin) {
                     showResetModal = true
                 } else {
                     viewModel.startGame()
                     gameBegin = true
                     showModal = false
                     selectedPlayer = null
-                } },
+                }
+            },
             height = 60,
             width = 0.8f,
             fontSize = 20.sp,
             backgroundColor = Primary,
-            modif = Modifier.testTag("StartButton")
+            modif = Modifier
+                .testTag("StartButton")
+                .semantics {
+                    contentDescription = if (!gameBegin) "Commencer la partie" else "Recommencer la partie"
+                }
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         CustomButton(
             text = "Mélanger",
             textColor = Color.White,
@@ -136,8 +143,12 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             height = 60,
             width=0.8f,
             fontSize = 20.sp,
-            backgroundColor = Primary)
+            backgroundColor = Primary,
+            modif = Modifier.semantics { contentDescription = "Mélanger les cartes du jeu" }
+        )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         CustomButton(
             text = "Piocher !",
             textColor = Color.White,
@@ -145,9 +156,11 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             height = 60,
             width=0.8f,
             fontSize = 20.sp,
-            backgroundColor = Primary
+            backgroundColor = Primary,
+            modif = Modifier.semantics { contentDescription = "Piocher une carte" }
         )
     }
+
     if (showResetModal) {
         ModalCheck(
             message = "Voulez-vous vraiment réinitialiser la partie ?",

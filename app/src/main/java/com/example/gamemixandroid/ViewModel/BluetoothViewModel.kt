@@ -42,6 +42,6 @@ class BluetoothViewModel() : ViewModel() {
     }
 
     fun requestBluetoothPermission(activity : Activity) {
-        bluetoothModel.requestBluetoothPermission(activity)
+        bluetoothModel.requestBluetoothPermission(activity, 1001)
     }
 }
