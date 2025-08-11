@@ -12,16 +12,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import com.example.gamemixandroid.ui.theme.NoName
 
 @Composable
-fun PlayerChip(name: String,  modifier: Modifier = Modifier) {
+fun PlayerChip(name: String, modifier: Modifier = Modifier) {
     val displayName = if (name.length >= 3) name.substring(0, 3) else name
 
     Box(
         modifier = modifier
             .size(60.dp)
             .clip(CircleShape)
-            .background(Color.White),
+            .background(NoName)
+            .semantics { contentDescription = "Joueur $name" },
         contentAlignment = Alignment.Center
     ) {
         Text(text = displayName.uppercase(), fontSize = 16.sp, color = Color.Black)
