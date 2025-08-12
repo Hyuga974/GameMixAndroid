@@ -18,8 +18,7 @@ This project is an Android app for managing multiplayer games, with potential Io
 - [Development Team](#development-team)
 
 # Work in Progress
-See you soon for more things 😉  
-Currently working on the CI/CD pipeline to automate build and test processes.
+See you soon for more things 😉 
 
 # Tests
 
