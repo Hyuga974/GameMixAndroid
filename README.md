@@ -10,7 +10,12 @@ This project is an Android app for managing multiplayer games, with potential Io
   - [E2E Tests](#e2e-tests)
   - [Security Tests](#security-tests)
   - [Structural Tests](#structural-tests)
-- [Workflow](#workflow)
+- [Setting Up Deployment and Testing Environments with Performance and Quality Monitoring Tools](#setting-up-deployment-and-testing-environments-with-performance-and-quality-monitoring-tools)
+- [Quality and Performance Indicators](#quality-and-performance-indicators)
+- [Review Process and Non-Conformity Management](#review-process-and-non-conformity-management)
+- [Automated Reports](#automated-reports)
+- [Tools Ensuring Tracking](#tools-ensuring-tracking)
+- [Development Team](#development-team)
 
 # Work in Progress
 See you soon for more things 😉  
@@ -110,6 +115,15 @@ Security tests ensure privacy, data safety, and robust permission handling.
 - Other apps cannot access the sandbox
 - Data stays unreadable on rooted devices
 
+**OWASP Top 10 Compliance**:  
+Relevant OWASP Top 10 risks are evaluated and mitigated:
+- **A01:2021 – Broken Access Control** → Scoped permissions & validation before actions
+- **A02:2021 – Cryptographic Failures** → Encrypted storage and Bluetooth pairing
+- **A03:2021 – Injection** → No dynamic SQL; parameterized queries only
+- **A05:2021 – Security Misconfiguration** → Secure defaults for Gradle builds and permissions
+- **A07:2021 – Identification and Authentication Failures** → Pseudonym validation and session handling
+- **A09:2021 – Security Logging and Monitoring Failures** → CI/CD logs and crash reports stored securely
+
 ## Structural Tests
 These verify internal code logic: branching, conditions, and edge case handling.
 
@@ -144,10 +158,10 @@ The project relies on modern Android libraries, including **Jetpack Compose**, *
 
 #### Quality & Coverage Badges:
 
-[![Android CI](https://github.com/Hyuga974/GameMixAndroid/actions/workflows/android.yml/badge.svg)](https://github.com/Hyuga974/GameMixAndroid/actions/workflows/android.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)
+[![Android CI](https://github.com/Hyuga974/GameMixAndroid/actions/workflows/android.yml/badge.svg)](https://github.com/Hyuga974/GameMixAndroid/actions/workflows/android.yml)  
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)  
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)  
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)  
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Hyuga974_GameMixAndroid&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)
 
 ---
@@ -171,8 +185,47 @@ This pipeline is still under development but follows an incremental and scalable
 - Code is continuously analyzed through **SonarQube** to detect complexity issues, duplication, and convention violations.
 - **JaCoCo integration** (in progress) will allow tracking **unit test coverage**, especially for critical business logic.
 - Performance monitoring tools like **Android Profiler** or **Firebase Performance Monitoring** may be added later for runtime analysis.
+- **Accessibility Compliance**: UI components are tested against [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) guidelines using automated accessibility scans (Accessibility Scanner) and manual validation on Android devices.
 
-# 👥 Development Team
+# Quality and Performance Indicators
+
+- **Code Coverage**: Target ≥ 80% on critical modules (measured via JaCoCo)
+- **Cyclomatic Complexity**: Target < 10 per method (tracked in SonarQube)
+- **Code Duplication**: Target < 5% (SonarQube)
+- **Bugs & Vulnerabilities**: 0 blocker in production
+- **UI Performance**: Navigation between screens < 500 ms
+- **Bluetooth Stability**: Successful connection rate > 95%
+- **Accessibility Compliance**: ≥ 95% of UI screens passing WCAG 2.1 AA automated checks
+
+---
+
+# Review Process and Non-Conformity Management
+
+- **Pull Requests required** for all changes, with manual review and SonarQube analysis before merge
+- **CI test failure procedure**:
+  1. Identify failing commit via GitHub Actions logs
+  2. Fix in a dedicated branch
+  3. Re-run tests before merging
+- **Post-deployment bug**: Create a GitHub issue with the `bug` label and link to the impacted user story
+
+---
+
+# Automated Reports
+
+- **JaCoCo report**: `build/reports/jacoco/test/html/index.html`
+- **SonarQube report**: Available on [SonarCloud](https://sonarcloud.io/summary/new_code?id=Hyuga974_GameMixAndroid)
+- **Build artifacts**: APK downloadable from the GitHub Actions *Actions* tab
+
+---
+
+# Tools Ensuring Tracking
+
+- **GitHub Actions**: Automates build, test, and static analysis
+- **SonarQube**: Code quality and security monitoring
+- **JaCoCo**: Unit test coverage tracking
+- *(planned)* **Firebase Performance Monitoring**: Real-world performance metrics
+- **Accessibility Scanner**: Automated WCAG compliance checks
+
+# Development Team
 
 This project was developed solo by [**Costa Reype**](#https://github.com/Hyuga974), who assumed all key roles throughout the development process — from planning to deployment.
-
