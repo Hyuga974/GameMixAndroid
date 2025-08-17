@@ -4,10 +4,12 @@ import org.gradle.kotlin.dsl.*
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.android") version "1.9.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
     id("jacoco")
     id("org.sonarqube") version "4.4.1.3373"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -18,8 +20,8 @@ android {
         applicationId = "com.example.gamemixandroid"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "0.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,6 +36,12 @@ android {
         }
         debug {
             enableUnitTestCoverage = true
+        }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
 
@@ -93,6 +101,14 @@ dependencies {
     // ✅ Mockito
     testImplementation("org.mockito:mockito-core:5.12.0")
     androidTestImplementation("org.mockito:mockito-android:4.0.0")
+
+    // ✅ Firebase
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")// Analytics
+    implementation ("com.google.firebase:firebase-crashlytics-ktx")// Crashlytics
+    implementation ("com.google.firebase:firebase-perf-ktx")// Performance Monitoring
+    implementation ("com.google.firebase:firebase-config-ktx")// Remote Config
 
     // AndroidTest + Compose
     androidTestImplementation(libs.androidx.junit)

@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GameMixAndroid"
 include(":app")
+include(":benchmark")

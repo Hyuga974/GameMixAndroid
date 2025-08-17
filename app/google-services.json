@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "117557251334",
+    "project_id": "gamemix-3f0e5",
+    "storage_bucket": "gamemix-3f0e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117557251334:android:32eb294dd83b9639696287",
+        "android_client_info": {
+          "package_name": "com.example.gamemixandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFAD0ED-lsO_21oPzkYAOp4m6BSEObXeI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
