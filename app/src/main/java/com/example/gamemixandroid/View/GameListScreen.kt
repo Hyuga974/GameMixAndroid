@@ -25,6 +25,8 @@ import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Tertiary
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 
 @Composable
 fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavController) {
@@ -88,6 +90,9 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
                     } else {
                         Log.d("BluetoothPermission", "Permissions déjà accordées")
                     }
+                    val analytics = Firebase.analytics
+                    analytics.logEvent("test_crash_event", null)
+                    throw RuntimeException("Test Crash")
                 },
                 height = 60,
                 width=0.8f,
