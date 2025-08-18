@@ -10,6 +10,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,9 +36,14 @@ import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import com.example.gamemixandroid.telemetry.Telemetry.logCurrentScreen
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
+    LaunchedEffect(Unit) {
+        logCurrentScreen("GameScreen")
+    }
+
     val game by viewModel.gameState.collectAsState()
     game.players = playerList as MutableList<Player>
 

@@ -62,7 +62,7 @@ fun PlayerTable(players: List<Player>, onRemove: (Player) -> Unit) {
             } else {
                 players.forEachIndexed { index, player ->
                     PlayerRow(player, onRemove, hasButton = true)
-                    if (index < players.size - 1) {
+                    if (index < players.size -1) {
                         HorizontalDivider(
                             thickness = 1.dp,
                             color = Color.Black.copy(alpha = 0.3f)
