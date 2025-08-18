@@ -27,13 +27,12 @@ import com.example.gamemixandroid.ui.theme.Tertiary
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import com.example.gamemixandroid.telemetry.Telemetry
-import com.example.gamemixandroid.telemetry.Telemetry.logCurrentScreen
 
 @Composable
 fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavController) {
 
     LaunchedEffect(Unit) {
-        logCurrentScreen("GameListScreen")
+        Telemetry.setScreen("GameListScreen")
     }
     val bluetoothViewModel: BluetoothViewModel = viewModel()
     val context = LocalContext.current

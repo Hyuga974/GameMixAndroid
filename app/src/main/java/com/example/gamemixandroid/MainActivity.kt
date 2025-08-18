@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = Firebase.analytics
-        Telemetry.init(applicationContext)
+        Telemetry.init()
 
 
         val prefs = getSharedPreferences("gamix_prefs", MODE_PRIVATE)

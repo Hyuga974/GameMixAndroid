@@ -27,17 +27,14 @@ import com.example.gamemixandroid.ui.theme.Background
 import com.example.ui.home.GameListScreen
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
-
-
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import com.example.gamemixandroid.telemetry.Telemetry
-import com.example.gamemixandroid.telemetry.Telemetry.logCurrentScreen
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     LaunchedEffect(Unit) {
-        logCurrentScreen("HomeScreen")
+        Telemetry.setScreen("HomeScreen")
     }
     val navController = rememberNavController()
 
@@ -107,7 +104,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 @Composable
 fun HomeContent(navController: NavController) {
     LaunchedEffect(Unit) {
-        logCurrentScreen("HomeScreen")
+        Telemetry.setScreen("HomeScreen")
     }
     Box(
         modifier = Modifier

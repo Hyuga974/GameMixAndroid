@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.core.os.bundleOf
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -17,56 +18,64 @@ object Telemetry {
 
     private var sessionId: String = "session-" + UUID.randomUUID().toString()
     private var lastScreen: String = "unknown"
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    fun init(context: Context) {
+    fun init() {
+        firebaseAnalytics = Firebase.analytics
+
+        // Crashlytics context keys
         Firebase.crashlytics.setCustomKey("session_id", sessionId)
         Firebase.crashlytics.setCustomKey("app_version", BuildConfig.VERSION_NAME)
         Firebase.crashlytics.setCustomKey("os_version", Build.VERSION.RELEASE ?: "unknown")
         Firebase.crashlytics.setCustomKey("device_model", Build.MODEL ?: "unknown")
 
-        // (Optionnel) tracer le démarrage de session
-        Firebase.analytics.logEvent(TelemetryEvent.RESULT) {
+        // Session start event
+        firebaseAnalytics.logEvent(TelemetryEvent.RESULT) {
             param(TelemetryParam.FEATURE, "session")
             param(TelemetryParam.STEP, "start")
             param(TelemetryParam.STATUS, "success")
             param(TelemetryParam.SESSION_ID, sessionId)
         }
 
-        // 🚨 Global crash handler
+        // Global crash handler
         Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
-            // Envoi vers Crashlytics
-            FirebaseCrashlytics.getInstance().recordException(throwable)
-
-            // Extra info
             val errorMsg = throwable.message ?: throwable.javaClass.simpleName
-            println("Telemetry : $errorMsg")
-            print("Telemetry : ${throwable.cause}")
-            println("Telemetry : Last screen was $lastScreen")
+            val crashlytics = FirebaseCrashlytics.getInstance()
 
+            // Crashlytics
+            crashlytics.setCustomKey("last_screen", lastScreen)
+            crashlytics.recordException(throwable)
 
+            // Analytics custom event
+            firebaseAnalytics.logEvent("app_exception") {
+                param("error_message", errorMsg)
+                param(FirebaseAnalytics.Param.SCREEN_NAME, lastScreen) // 👈 standard
+                param(TelemetryParam.SESSION_ID, sessionId)
+            }
 
-            // Envoi d’un event Firebase Analytics → dispo dans BigQuery
-            Firebase.analytics.logEvent("app_exception", bundleOf(
-                "error_message" to errorMsg,
-                "current_screen" to lastScreen,
-                TelemetryParam.SESSION_ID to sessionId
-            ))
+            Log.e("Telemetry", "Uncaught exception on $lastScreen: $errorMsg")
+
             android.os.Process.killProcess(android.os.Process.myPid())
             exitProcess(2)
         }
     }
 
-    fun setScreen(screenName: String) {
+    fun setScreen(screenName: String, screenClass: String = "ComposeScreen") {
         lastScreen = screenName
-        Firebase.analytics.logEvent(TelemetryEvent.SCREEN) {
-            param(TelemetryParam.SCREEN, screenName)
+
+        // Firebase standard SCREEN_VIEW event
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, screenClass)
             param(TelemetryParam.SESSION_ID, sessionId)
         }
+
+        // Crashlytics key for correlation
+        FirebaseCrashlytics.getInstance().setCustomKey("current_screen", screenName)
     }
 
-    /** On enregistre ce que l’on attend d’une action critique */
     fun expected(feature: String, expected: String, step: String) {
-        Firebase.analytics.logEvent(TelemetryEvent.EXPECTED) {
+        firebaseAnalytics.logEvent(TelemetryEvent.EXPECTED) {
             param(TelemetryParam.FEATURE, feature)
             param(TelemetryParam.STEP, step)
             param(TelemetryParam.RESULT_EXPECTED, expected)
@@ -75,9 +84,8 @@ object Telemetry {
         Firebase.crashlytics.log("EXPECTED[$feature/$step] -> $expected")
     }
 
-    /** Succès : on précise ce qui s’est passé concrètement */
     fun success(feature: String, step: String, obtained: String? = null) {
-        Firebase.analytics.logEvent(TelemetryEvent.RESULT) {
+        firebaseAnalytics.logEvent(TelemetryEvent.RESULT) {
             param(TelemetryParam.FEATURE, feature)
             param(TelemetryParam.STEP, step)
             param(TelemetryParam.STATUS, "success")
@@ -89,7 +97,6 @@ object Telemetry {
         Firebase.crashlytics.log("SUCCESS[$feature/$step] ${obtained ?: ""}")
     }
 
-    /** Échec non fatal : on remonte message + sévérité + exception */
     fun failure(
         feature: String,
         step: String,
@@ -97,7 +104,7 @@ object Telemetry {
         severity: String = "Majeur",
         t: Throwable? = null
     ) {
-        Firebase.analytics.logEvent(TelemetryEvent.RESULT) {
+        firebaseAnalytics.logEvent(TelemetryEvent.RESULT) {
             param(TelemetryParam.FEATURE, feature)
             param(TelemetryParam.STEP, step)
             param(TelemetryParam.STATUS, "failure")
@@ -118,7 +125,6 @@ object Telemetry {
         }
     }
 
-    /** Helper pour entourer une action et tracer attempt/success/failure */
     inline fun <T> trackAction(
         feature: String,
         step: String,
@@ -137,10 +143,5 @@ object Telemetry {
             failure(feature, step, obtained = e.localizedMessage ?: "unknown", severity = severityOnError, t = e)
             null
         }
-    }
-
-    fun logCurrentScreen(screenName: String) {
-        lastScreen = screenName
-        FirebaseCrashlytics.getInstance().setCustomKey("current_screen", screenName)
     }
 }

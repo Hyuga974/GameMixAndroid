@@ -36,7 +36,7 @@ import kotlinx.serialization.encodeToString
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
-import com.example.gamemixandroid.telemetry.Telemetry.logCurrentScreen
+import com.example.gamemixandroid.telemetry.Telemetry
 
 @Composable
 fun SetGameScreen(
@@ -47,7 +47,7 @@ fun SetGameScreen(
     navController: NavController
 ) {
     LaunchedEffect(Unit) {
-        logCurrentScreen("SetGameScreen_$gameName")
+        Telemetry.setScreen("SetGameScreen_$gameName")
     }
 
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }

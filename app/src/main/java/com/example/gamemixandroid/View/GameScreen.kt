@@ -36,12 +36,12 @@ import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Secondary
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
-import com.example.gamemixandroid.telemetry.Telemetry.logCurrentScreen
+import com.example.gamemixandroid.telemetry.Telemetry
 
 @Composable
 fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController: NavController) {
     LaunchedEffect(Unit) {
-        logCurrentScreen("GameScreen")
+        Telemetry.setScreen("GameScreen")
     }
 
     val game by viewModel.gameState.collectAsState()
