@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.gamemixandroid.View.HomeScreen
+import com.example.gamemixandroid.telemetry.Telemetry
 import com.example.gamemixandroid.ui.theme.GameMixAndroidTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -33,6 +34,8 @@ class MainActivity : ComponentActivity() {
 
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = Firebase.analytics
+        Telemetry.init()
+
 
         val prefs = getSharedPreferences("gamix_prefs", MODE_PRIVATE)
         var deviceId = prefs.getString("device_id", null)
@@ -45,11 +48,6 @@ class MainActivity : ComponentActivity() {
         FirebaseCrashlytics.getInstance().setUserId("Device_$deviceId")
 
         Firebase.crashlytics.log("App started")
-
-        val bundle = Bundle().apply {
-            putString(FirebaseAnalytics.Param.METHOD, "app_start")
-        }
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle)
 
         val trace = FirebasePerformance.getInstance().newTrace("startup_trace")
         trace.start()

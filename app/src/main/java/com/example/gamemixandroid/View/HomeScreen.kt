@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -26,13 +27,15 @@ import com.example.gamemixandroid.ui.theme.Background
 import com.example.ui.home.GameListScreen
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
-
-
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import com.example.gamemixandroid.telemetry.Telemetry
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
+    LaunchedEffect(Unit) {
+        Telemetry.setScreen("HomeScreen")
+    }
     val navController = rememberNavController()
 
     NavHost(
@@ -41,14 +44,17 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
         modifier = Modifier.semantics { contentDescription = "Navigation principale de GameMix" }
     ) {
         composable("homeScreen") {
+            Telemetry.setScreen("HomeScreen")
             HomeContent(navController)
         }
 
         composable("GameListScreen") {
+            Telemetry.setScreen("GameListScreen")
             GameListScreen(viewModel, navController)
         }
 
         composable("BeloteScreenGame") {
+            Telemetry.setScreen("BeloteScreenGame")
             SetGameScreen(
                 maxPlayers = 4,
                 minPlayers = 4,
@@ -59,6 +65,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
         }
 
         composable("PresidentScreenGame") {
+            Telemetry.setScreen("PresidentScreenGame")
             SetGameScreen(
                 maxPlayers = 7,
                 minPlayers = 2,
@@ -76,6 +83,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
+            Telemetry.setScreen("PresidentGame")
             GameScreen(players, gameViewModel, navController)
         }
 
@@ -87,6 +95,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 ?.let { URLDecoder.decode(it, "UTF-8") } ?: "[]"
             val players: List<Player> = Json.decodeFromString(json)
             val gameViewModel: GameViewModel = viewModel()
+            Telemetry.setScreen("BeloteGame")
             GameScreen(players, gameViewModel, navController)
         }
     }
@@ -94,6 +103,9 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 
 @Composable
 fun HomeContent(navController: NavController) {
+    LaunchedEffect(Unit) {
+        Telemetry.setScreen("HomeScreen")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

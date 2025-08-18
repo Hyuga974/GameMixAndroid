@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,14 +26,17 @@ import com.example.gamemixandroid.ui.theme.Primary
 import com.example.gamemixandroid.ui.theme.Tertiary
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.analytics
+import com.example.gamemixandroid.telemetry.Telemetry
 
 @Composable
 fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavController) {
+
+    LaunchedEffect(Unit) {
+        Telemetry.setScreen("GameListScreen")
+    }
     val bluetoothViewModel: BluetoothViewModel = viewModel()
     val context = LocalContext.current
-    val activity = context as? Activity
+    val activity = context as Activity
 
     Column(
         modifier = Modifier
@@ -72,7 +76,7 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
             CustomButton(
                 "Président",
                 textColor = Primary,
-                onClick = { navController.navigate("PresidentScreenGame") },
+                onClick = { navController.navigate("PrésidentScreenGame") },
                 height = 60,
                 width=0.8f,
                 fontSize = 20.sp,
@@ -84,15 +88,17 @@ fun GameListScreen(viewModel: HomeViewModel = viewModel(), navController: NavCon
             CustomButton(
                 "Connecter un GameMixer !",
                 onClick = {
-                    if (activity != null && !bluetoothViewModel.hasBluetoothPermission(context)) {
+                    Telemetry.trackAction(
+                        feature = "bluetooth_connection",
+                        step = "connect",
+                        expected = "device_connected",
+                        severityOnError = "Majeur"
+                    ){if (!bluetoothViewModel.hasBluetoothPermission(context)) {
                         Log.d("BluetoothPermission", "Permissions demandées")
                         bluetoothViewModel.requestBluetoothPermission(activity)
                     } else {
                         Log.d("BluetoothPermission", "Permissions déjà accordées")
-                    }
-                    val analytics = Firebase.analytics
-                    analytics.logEvent("test_crash_event", null)
-                    throw RuntimeException("Test Crash")
+                    }}
                 },
                 height = 60,
                 width=0.8f,

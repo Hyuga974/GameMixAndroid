@@ -36,6 +36,7 @@ import kotlinx.serialization.encodeToString
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
+import com.example.gamemixandroid.telemetry.Telemetry
 
 @Composable
 fun SetGameScreen(
@@ -45,6 +46,10 @@ fun SetGameScreen(
     viewModel: SetGameViewModel = viewModel(),
     navController: NavController
 ) {
+    LaunchedEffect(Unit) {
+        Telemetry.setScreen("SetGameScreen_$gameName")
+    }
+
     var newPlayerName by remember { mutableStateOf(TextFieldValue("")) }
     val players = viewModel.players
     val keyboardController = LocalSoftwareKeyboardController.current
