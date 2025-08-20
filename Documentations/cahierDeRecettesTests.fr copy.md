@@ -1,4 +1,215 @@
+# Cahier de Recettes - GameMixAndroid
 
+* **Version**: 1.0
+* **Date**: 16/07/2025
+* **Responsable Qualité**: REYPE Costa
+
+## Table des matières
+
+1. [Plan des tests](#1-plan-des-tests)
+2. [Spécifications fonctionnelles](#2spécifications-fonctionnelles---user-stories)
+  1. [Tests fonctionnels](#21-tests-fonctionnels)
+  2. [Tests de sécurité](#22-tests-de-sécurité)
+  3. [Tests structurels](#23-tests-structurels)
+3. [Matrice de validation](#3-matrice-de-validation)
+
+# 1. Plan des tests
+
+| Domaine     | Fonctionnalité couverte | Types de Testes            | Outils            |
+|-------------|-------------------------|----------------------------|-------------------|
+| Fonctionnel | US001-US011             | Unitaire, Integration, E2E | JUnit, Espresso   |
+| Sécurité    | US012-US014             | Testes de Sécurité         | OWASP ZAP         |
+| Structurel  | US015                   | Couverture du code         | JaCoCo, SonarQube |
+
+# 2.Spécifications Fonctionnelles - User Stories
+
+## 2.1 Tests fonctionnels
+
+### US001 - Enregistrement d’Utilisateur
+**En tant que** joueur,  
+**Je veux** rejoindre une partie avec un pseudonyme,  
+**Afin de** pouvoir participer à la partie.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** je rejoins avec un pseudonyme, **ALORS** je suis ajouté à la partie et mon pseudonyme apparaît dans la liste des joueurs.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre avec un pseudonyme déjà pris, **ALORS** je reçois un message d’erreur indiquant que le pseudonyme est déjà utilisé.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre sans pseudonyme, **ALORS** je reçois un message d’erreur indiquant qu’un pseudonyme est obligatoire.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre avec un pseudonyme de plus de 20 caractères, **ALORS** je reçois un message d’erreur indiquant que le pseudonyme est trop long.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre avec un pseudonyme de moins de 2 caractères, **ALORS** je reçois un message d’erreur indiquant que le pseudonyme est trop court.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre avec un pseudonyme contenant des caractères spéciaux, **ALORS** je reçois un message d’erreur indiquant que les caractères spéciaux ne sont pas autorisés.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** j’essaie de rejoindre avec un pseudonyme contenant des espaces, **ALORS** je reçois un message d’erreur indiquant que les espaces ne sont pas autorisés.
+
+---
+
+### US002 - Suppression d’Utilisateur
+**En tant que** joueur,  
+**Je veux** quitter une partie,  
+**Afin de** ne plus y participer.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** je quitte la partie, **ALORS** je suis retiré de la liste des joueurs.
+- **ÉTANT DONNÉE** une partie en création, **LORSQUE** je quitte la partie, **ALORS** je reçois un message de confirmation de départ.
+
+---
+
+### US003 - Création de Partie
+**En tant que** joueur,  
+**Je veux** créer une partie,  
+**Afin de** pouvoir jouer.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** sur l’écran de création, **LORSQUE** je crée une partie, **ALORS** la partie est créée et je suis redirigé vers l’écran de jeu.
+- **ÉTANT DONNÉ** sur l’écran de création, **LORSQUE** je crée une partie avec trop peu de joueurs, **ALORS** je reçois un message d’erreur indiquant qu’il n’y a pas assez de joueurs.
+- **ÉTANT DONNÉ** sur l’écran de création, **LORSQUE** je crée une partie avec trop de joueurs, **ALORS** je reçois un message d’erreur indiquant qu’il y a trop de joueurs.
+- **ÉTANT DONNÉ** sur l’écran de création, **LORSQUE** je crée une partie, **ALORS** le nombre exact de joueurs demandés est affecté.
+- **ÉTANT DONNÉ** sur l’écran de création, **LORSQUE** je crée une partie, **ALORS** tous les joueurs commencent avec un score de 0.
+
+---
+
+### US004 - Gestion et Démarrage de Partie
+**En tant que** joueur,  
+**Je veux** créer une partie, ajouter des joueurs et la démarrer,  
+**Afin de** jouer avec d’autres.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que je suis sur l’écran de création, **LORSQUE** je sélectionne un type de jeu (ex. Belote), **ALORS** les options du jeu apparaissent.
+- **ÉTANT DONNÉ** que j’ai ajouté des joueurs, **LORSQUE** le nombre minimum est atteint, **ALORS** le bouton *Jouer* est activé.
+- **ÉTANT DONNÉ** que j’ai configuré la partie, **LORSQUE** je clique sur *Jouer*, **ALORS** la partie démarre et je suis redirigé vers l’écran de jeu.
+
+---
+
+### US005 - Édition des Scores
+**En tant que** joueur,  
+**Je veux** mettre à jour les scores,  
+**Afin de** les gérer.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je modifie le score d’un joueur, **ALORS** il est mis à jour dans la liste.
+- **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j’entre un score négatif, **ALORS** il est correctement pris en compte.
+- **ÉTANT DONNÉ** une partie en cours, **LORSQUE** j’essaie de modifier le score d’un joueur inexistant, **ALORS** je reçois un message d’erreur.
+
+---
+
+### US006 - Mise à Jour des Scores
+**En tant que** joueur,  
+**Je veux** voir les scores mis à jour immédiatement,  
+**Afin de** suivre la partie en temps réel.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** une partie en cours, **LORSQUE** je modifie le score d’un joueur, **ALORS** le nouveau score est affiché immédiatement.
+
+---
+
+### US007 - Réinitialisation des Scores
+**En tant que** joueur,  
+**Je veux** réinitialiser tous les scores pendant une partie,  
+**Afin de** recommencer facilement une nouvelle manche.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** des scores existants, **LORSQUE** je déclenche une réinitialisation, **ALORS** une boîte de confirmation apparaît.
+- **ÉTANT DONNÉ** que je confirme la réinitialisation, **LORSQUE** l’action est validée, **ALORS** tous les scores affichent 0.
+- **ÉTANT DONNÉ** que j’annule la réinitialisation, **LORSQUE** la boîte se ferme, **ALORS** les scores restent inchangés.
+
+---
+
+### US008 - Connexion et Contrôle d’un Appareil Externe
+**En tant que** joueur,  
+**Je veux** connecter un appareil de cartes,  
+**Afin de** automatiser le mélange et la distribution.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que le Bluetooth est activé, **LORSQUE** je sélectionne un appareil, **ALORS** l’appairage se termine en moins de 10s.
+- **ÉTANT DONNÉ** une connexion réussie, **LORSQUE** j’envoie une commande de mélange, **ALORS** l’appareil l’exécute en moins de 3s.
+- **ÉTANT DONNÉ** que je suis connecté, **LORSQUE** j’envoie une commande de distribution, **ALORS** les cartes sont distribuées comme configuré.
+
+---
+
+### US009 - Connexion Bluetooth et Contrôle d’Appareil
+**En tant que** joueur,  
+**Je veux** utiliser le Bluetooth pour contrôler un appareil externe,  
+**Afin de** faciliter le déroulement de la partie.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que je veux utiliser un appareil externe, **LORSQUE** je me connecte en Bluetooth et envoie une commande, **ALORS** l’appareil exécute la commande (mélange ou distribution).
+
+---
+
+### US010 - Gestion des Erreurs de Connexion Bluetooth
+**En tant que** joueur,  
+**Je veux** recevoir des messages d’erreur clairs,  
+**Afin de** résoudre efficacement les problèmes de connexion Bluetooth.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que le Bluetooth est désactivé, **LORSQUE** j’essaie de me connecter, **ALORS** je vois des instructions pour l’activer.
+- **ÉTANT DONNÉ** que l’appareil est indisponible, **LORSQUE** j’essaie de m’appairer, **ALORS** je reçois une alerte « Appareil indisponible ».
+- **ÉTANT DONNÉ** une déconnexion en cours de partie, **LORSQUE** cela arrive, **ALORS** je vois des options de reconnexion.
+- **ÉTANT DONNÉ** que j’essaie de me connecter à un appareil Bluetooth indisponible, **LORSQUE** la connexion échoue, **ALORS** je reçois un message d’erreur explicite.
+
+---
+
+### US011 - Navigation entre les Écrans
+**En tant que** joueur,  
+**Je veux** naviguer fluidement entre les écrans,  
+**Afin de** accéder à toutes les fonctionnalités facilement.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que je suis sur un écran, **LORSQUE** j’utilise la navigation, **ALORS** la transition dure <500ms.
+- **ÉTANT DONNÉ** que je change d’écran, **LORSQUE** je le fais, **ALORS** la transition est fluide et l’état précédent est préservé.
+- **ÉTANT DONNÉ** que j’utilise la navigation retour, **LORSQUE** je confirme, **ALORS** je reviens à l’écran logique précédent.
+
+---
+
+## 2.2 Tests de Sécurité
+
+### US012 - Gestion des Permissions
+**En tant que** joueur,  
+**Je veux** contrôler les permissions de l’application,  
+**Afin de** protéger ma vie privée.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que j’accède à une fonctionnalité Bluetooth, **LORSQUE** la permission manque, **ALORS** je vois une demande justifiée.
+- **ÉTANT DONNÉ** que je refuse une permission, **LORSQUE** j’essaie de réutiliser la fonctionnalité, **ALORS** une alternative propre est proposée.
+- **ÉTANT DONNÉ** que je révoque une permission, **LORSQUE** je rouvre l’application, **ALORS** les fonctionnalités associées sont désactivées.
+
+---
+
+### US013 - Sécurité Bluetooth
+**En tant que** joueur,  
+**Je veux** des connexions sécurisées,  
+**Afin de** protéger mon appareil.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** que j’appaire des appareils, **LORSQUE** la connexion est établie, **ALORS** le chiffrement est activé automatiquement.
+- **ÉTANT DONNÉ** des appareils non autorisés, **LORSQUE** ils tentent un appairage, **ALORS** la demande est refusée.
+- **ÉTANT DONNÉ** une connexion active, **LORSQUE** une attaque de type « man-in-the-middle » est simulée, **ALORS** la connexion est interrompue.
+
+---
+
+### US014 - Protection des Données
+**En tant que** joueur,  
+**Je veux** que mes données de partie restent privées,  
+**Afin de** qu’elles ne soient pas accessibles aux autres.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** des données stockées, **LORSQUE** j’inspecte le stockage, **ALORS** les fichiers sont chiffrés.
+- **ÉTANT DONNÉ** d’autres applications, **LORSQUE** elles demandent un accès, **ALORS** la permission est refusée.
+- **ÉTANT DONNÉ** un appareil rooté, **LORSQUE** il accède au bac à sable de l’app, **ALORS** les données restent illisibles.
+
+---
+
+## 2.3 Tests Structurels
+
+### US015 - Couverture des Branches Conditionnelles
+**En tant que** développeur,  
+**Je veux** que tous les chemins du code soient testés,  
+**Afin de** garantir que la logique fonctionne dans tous les scénarios.
+
+**Critères d’acceptation :**
+- **ÉTANT DONNÉ** des tests unitaires exécutés, **LORSQUE** la couverture est générée, **ALORS** les composants critiques affichent ≥80% de couverture.
+- **ÉTANT DONNÉ** la logique de validation, **LORSQUE** je teste les cas limites, **ALORS** toutes les branches conditionnelles sont exécutées.
+- **ÉTANT DONNÉ** des branches non couvertes, **LORSQUE** elles sont identifiées, **ALORS** des tests sont ajoutés pour les chemins manquants.
+
+# 3. Matrice de validation
 | ID         | TITRE                             | DESCRIPTION                                                                                               | RÉSULTAT SOUHAITÉ                                                                                 | RÉSULTAT OBTENU | COMMENTAIRE |
 |------------|-----------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|-----------------|-------------|
 | US001      | Enregistrement Utilisateur        |                                                                                                            |                                                                                                    |                 |             |

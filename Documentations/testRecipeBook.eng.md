@@ -17,9 +17,9 @@
 
 | Domain         | Covered Features | Types of Tests                | Tools             |
 |----------------|------------------|-------------------------------|-------------------|
-| Functional     | US001-US014      | Unit, Integration, E2E        | JUnit, Espresso   |
-| Security       | US015-US017      | Security Tests                | OWASP ZAP         |
-| Structural     | US018            | Code Coverage                 | JaCoCo, SonarQube |
+| Functional     | US001-US011      | Unit, Integration, E2E        | JUnit, Espresso   |
+| Security       | US012-US014      | Security Tests                | OWASP ZAP         |
+| Structural     | US015            | Code Coverage                 | JaCoCo, SonarQube |
 
 # 2. Test Scenarios
 
