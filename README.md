@@ -3,7 +3,9 @@
 This project is an Android app for managing multiplayer games, with potential IoT integration (e.g., Bluetooth-controlled card shufflers).
 
 ## Table of Contents
-- [Work in Progress](#work-in-progress)
+- [How tp use this project](#how-to-use-this-project)
+  - [Prerequisites](#prerequisites)
+  - [Starting the Project](#starting-the-project)
 - [Tests](#tests)
   - [Unit Tests](#unit-tests)
   - [Integration Tests](#integration-tests)
@@ -17,8 +19,33 @@ This project is an Android app for managing multiplayer games, with potential Io
 - [Tools Ensuring Tracking](#tools-ensuring-tracking)
 - [Development Team](#development-team)
 
-# Work in Progress
-See you soon for more things 😉 
+# How to use this project
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Android Studio (latest stable version)](https://developer.android.com/studio)
+- Java 17 or higher (Android Studio manages most configurations automatically)
+- Gradle (bundled with Android Studio)
+- An Android device (with USB debugging enabled) or an emulator
+- Git (for cloning the repository)
+- Clone the project (if you haven't already):
+  ```bash
+  git clone https://github.com/your-organization/GameMixAndroid.git
+  ```
+  
+## Starting the Project
+
+- Open Android Studio
+- Select "Open an existing project"
+- Navigate to the cloned repository and select it
+- Wait for Gradle to sync (this may take a few minutes)
+- Connect your Android device or start an emulator
+- Click the "Run" button (green play icon) in Android Studio
+- Select your device/emulator and click "OK"
+- The app should now build and launch on your device/emulator
+
 
 # Tests
 

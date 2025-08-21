@@ -150,6 +150,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             width=0.8f,
             fontSize = 20.sp,
             backgroundColor = Primary,
+            on = false,
             modif = Modifier.semantics { contentDescription = "Mélanger les cartes du jeu" }
         )
 
@@ -163,6 +164,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             width=0.8f,
             fontSize = 20.sp,
             backgroundColor = Primary,
+            on = false,
             modif = Modifier.semantics { contentDescription = "Piocher une carte" }
         )
     }

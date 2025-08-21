@@ -188,7 +188,7 @@
 ### US014 - Protection des Données
 **En tant que** joueur,  
 **Je veux** que mes données de partie restent privées,  
-**Afin de** qu’elles ne soient pas accessibles aux autres.
+**Afin** qu’elles ne soient pas accessibles aux autres.
 
 **Critères d’acceptation :**
 - **ÉTANT DONNÉ** des données stockées, **LORSQUE** j’inspecte le stockage, **ALORS** les fichiers sont chiffrés.
