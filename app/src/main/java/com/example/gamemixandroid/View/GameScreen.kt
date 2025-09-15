@@ -67,11 +67,18 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.gamemixlogo_transparent),
-                contentDescription = "Logo de l'application GameMix",
-                modifier = Modifier.size(50.dp)
-            )
+            Button(
+                onClick = { navController.navigate("homeScreen") },
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(Color.Transparent), // Make the button background transparent
+                modifier = Modifier.semantics { contentDescription = "Logo de l'application GameMix" }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.gamemixlogo_transparent),
+                    contentDescription = "Logo de l'application GameMix",
+                    modifier = Modifier.size(50.dp)
+                )
+            }
             Button(
                 onClick = { /* TODO: Help Action */ },
                 shape = CircleShape,
@@ -81,6 +88,7 @@ fun GameScreen(playerList: List<Player>, viewModel: GameViewModel, navController
                 Text("?", fontSize = 18.sp)
             }
         }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
