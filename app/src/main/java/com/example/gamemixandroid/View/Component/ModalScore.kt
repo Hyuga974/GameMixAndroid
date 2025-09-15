@@ -84,7 +84,7 @@ fun ModalScore(
                         val newScore = scoreInput.toIntOrNull()
                         if (newScore != null) {
                             player.score += newScore
-                            onUpdateScore(newScore)
+                            onUpdateScore(player.score)
                             scoreInput = ""
                             errorMessage = null
                             shouldClose = true
